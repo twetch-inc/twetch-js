@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+const Client = require('./src/client');
+//const client = new Client();
+const client = new Client({ apiUrl: 'http://localhost:3001/v1', network: 'testnet' });
+
+console.log('Twetch SDK CLI');
+console.log('address: ', client.wallet.address.toString());
+
+(async () => {
+	try {
+		const response = await client.buildAndPublish('post', {
+			bContent: process.argv[2],
+			bFilename: `twetch_twtext${new Date().getTime()}.txt`,
+			mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+		});
+	} catch (e) {
+		if (e && e.response && e.response.data) {
+			console.log(e.response.data);
+		} else {
+			console.log(e);
+		}
+	}
+
+	process.exit();
+})();

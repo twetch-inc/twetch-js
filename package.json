@@ -1,0 +1,25 @@
+{
+  "name": "twetch-js",
+  "version": "0.0.1",
+  "description": "Twetch SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/twetch-inc/twetch-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twetch-inc/twetch-js/issues"
+  },
+  "homepage": "https://github.com/twetch-inc/twetch-js#readme",
+  "dependencies": {
+    "@twetch/bsvabi": "0.0.1-canary.22",
+    "axios": "0.19.1",
+    "bsv": "1.2.0",
+    "datapay": "0.0.19"
+  }
+}

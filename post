@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const Client = require('./src/client');
-//const client = new Client();
-const client = new Client({ apiUrl: 'http://localhost:3001/v1', network: 'testnet' });
+const client = new Client({ network: 'testnet' });
+//const client = new Client({ apiUrl: 'http://localhost:3001/v1', network: 'testnet' });
 
 console.log('Twetch SDK CLI');
 console.log('address: ', client.wallet.address.toString());

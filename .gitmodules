@@ -1,0 +1,6 @@
+[submodule "bsvabi"]
+	path = bsvabi
+	url = git@github.com:twetch-inc/bsvabi.git
+[submodule "datapay"]
+	path = datapay
+	url = git@github.com:twetch-inc/datapay.git

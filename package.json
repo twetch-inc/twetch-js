@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/twetch-inc/twetch-js#readme",
   "dependencies": {
-    "@twetch/bsvabi": "0.0.1-canary.22",
+    "@twetch/bsvabi": "file:bsvabi",
     "axios": "0.19.1",
     "bsv": "1.2.0",
-    "datapay": "0.0.19"
+    "datapay": "file:datapay"
   }
 }

@@ -2,13 +2,15 @@
 
 const Client = require('./src/client');
 const client = new Client({ network: 'testnet' });
-//const client = new Client({ apiUrl: 'http://localhost:3001/v1', network: 'testnet' });
+//const client = new Client({ apiUrl: 'http://localhost:3001/v1' });
 
 console.log('Twetch SDK CLI');
 console.log('address: ', client.wallet.address.toString());
 
 (async () => {
 	try {
+		const balance = await client.wallet.balance();
+		console.log('balance: ', balance / 100000000, 'BSV');
 		const response = await client.buildAndPublish('post', {
 			bContent: process.argv[2],
 			bFilename: `twetch_twtext${new Date().getTime()}.txt`,

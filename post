@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const Client = require('./src/client');
+const Client = require('./dist/twetch.node.min.js');
 const client = new Client({ network: 'testnet' });
 //const client = new Client({ apiUrl: 'http://localhost:3001/v1' });
 

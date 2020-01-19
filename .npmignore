@@ -1,1 +1,6 @@
 .git
+.bit
+.DS_Store
+src
+.prettierrc
+index.js

@@ -1,8 +1,7 @@
 const bitcoin = require('bsv');
-const Mnemonic = require('bsv/mnemonic');
 const Message = require('bsv/message');
 const Storage = require('./storage');
-const datapay = require('datapay');
+const buildTransaction = require('./build-transaction');
 const axios = require('axios');
 
 class Wallet {
@@ -53,24 +52,16 @@ class Wallet {
 			value: parseInt((e.amount * 100000000).toFixed(0), 10)
 		}));
 
-		return new Promise((resolve, reject) => {
-			datapay.build(
-				{
-					data,
-					pay: {
-						rpc: this.rpc,
-						key: this.privateKey.toString(),
-						to
-					}
-				},
-				(err, tx) => {
-					if (err) {
-						return reject(err);
-					}
-					return resolve(tx);
-				}
-			);
+		const tx = await buildTransaction({
+			data,
+			pay: {
+				rpc: this.rpc,
+				key: this.privateKey.toString(),
+				to
+			}
 		});
+
+		return tx;
 	}
 }
 

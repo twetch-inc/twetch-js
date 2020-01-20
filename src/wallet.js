@@ -13,7 +13,7 @@ class Wallet {
 		let privateKey = Storage.getItem(`${this.network}PrivateKey`);
 
 		if (!privateKey) {
-			privateKey = bitcoin.PrivateKey.fromRandom(options.network);
+			privateKey = bitcoin.PrivateKey.fromRandom(this.network);
 			Storage.setItem(`${this.network}PrivateKey`, privateKey.toString());
 		} else {
 			privateKey = bitcoin.PrivateKey.fromString(privateKey);

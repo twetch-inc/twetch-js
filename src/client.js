@@ -1,4 +1,4 @@
-const BSVABI = require('@twetch/bsvabi');
+const BSVABI = require('../bsvabi');
 const axios = require('axios');
 
 const Storage = require('./storage');

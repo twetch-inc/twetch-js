@@ -3,5 +3,6 @@
 .git
 .gitmodules
 .prettierrc
+bsvabi
 index.js
 src

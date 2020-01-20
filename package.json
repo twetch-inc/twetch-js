@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/twetch-inc/twetch-js#readme",
   "dependencies": {
-    "@twetch/bsvabi": "file:bsvabi",
     "axios": "0.19.1",
     "bsv": "1.2.0",
     "buffer": "5.4.3"

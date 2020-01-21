@@ -8,7 +8,7 @@ class Client {
 	constructor(options = {}) {
 		this.network = options.network || 'mainnet';
 		this.wallet = new Wallet(options);
-		this.client = axios.create({ baseURL: options.apiUrl || 'https://dev-api.twetch.app/v1' });
+		this.client = axios.create({ baseURL: options.apiUrl || 'https://api.twetch.app/v1' });
 		this.initAbi();
 	}
 

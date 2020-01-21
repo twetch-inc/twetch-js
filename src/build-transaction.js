@@ -4,7 +4,7 @@ const axios = require('axios');
 const defaults = {
 	rpc: 'https://api.bitindex.network/api',
 	fee: 400,
-	feeb: 1.0
+	feeb: 0.5
 };
 
 const build = async function(options) {

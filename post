@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const Client = require('./dist/twetch.node.min.js');
-const client = new Client({ network: 'testnet' });
-//const client = new Client({ apiUrl: 'http://localhost:3001/v1' });
+const Client = require('./index.js');
+const client = new Client();
+//const client = new Client({ apiUrl: 'http://localhost:3001/v1', network: 'testnet' });
 
 console.log('Twetch SDK CLI');
 console.log('address: ', client.wallet.address.toString());
@@ -13,7 +13,7 @@ console.log('address: ', client.wallet.address.toString());
 		console.log('balance: ', balance / 100000000, 'BSV');
 		const response = await client.buildAndPublish('post', {
 			bContent: process.argv[2],
-			bFilename: `twetch_twtext${new Date().getTime()}.txt`,
+			bFilename: `1harrywon-${new Date().getTime()}.txt`,
 			mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 		});
 	} catch (e) {

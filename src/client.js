@@ -20,6 +20,28 @@ class Client {
 		Storage.setItem('abi', JSON.stringify(this.abi));
 	}
 
+	async publish(action, payload) {
+		try {
+			console.log('signing address: ', this.wallet.address.toString());
+
+			const balance = await this.wallet.balance();
+
+			if (!balance) {
+				return console.log('No Funds. Please add funds to ', this.wallet.address.toString());
+			}
+
+			console.log('balance: ', balance / 100000000, 'BSV');
+
+			return this.buildAndPublish(action, payload);
+		} catch (e) {
+			if (e && e.response && e.response.data) {
+				console.log(e.response.data);
+			} else {
+				console.log(e);
+			}
+		}
+	}
+
 	async buildAndPublish(action, payload) {
 		if (!this.abi || !this.abi.name) {
 			await this.initAbi();
@@ -36,7 +58,7 @@ class Client {
 		this.invoice = payeeResponse.invoice;
 		await abi.replace();
 		const tx = await this.wallet.buildTx(abi.toArray(), payeeResponse.payees);
-		const response = await this.publish({
+		const response = await this.publishRequest({
 			signed_raw_tx: tx.toString(),
 			invoice: payeeResponse.invoice,
 			action
@@ -57,7 +79,7 @@ class Client {
 		return response.data;
 	}
 
-	async publish(payload) {
+	async publishRequest(payload) {
 		const response = await this.client.post('/publish', payload);
 		return response.data;
 	}

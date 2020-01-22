@@ -9,30 +9,13 @@ const client = new Client({
 });
 
 console.log('Twetch SDK CLI');
-console.log('signing address: ', client.wallet.address.toString());
 
 (async () => {
-	try {
-		const balance = await client.wallet.balance();
-
-		if (!balance) {
-			return console.log('No Funds. Please add funds to ', client.wallet.address.toString());
-		}
-
-		console.log('balance: ', balance / 100000000, 'BSV');
-
-		const response = await client.buildAndPublish('twetch/post@0.0.1', {
-			bContent: process.argv[2],
-			bFilename: `twetch-${new Date().getTime()}.txt`,
-			mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
-		});
-	} catch (e) {
-		if (e && e.response && e.response.data) {
-			console.log(e.response.data);
-		} else {
-			console.log(e);
-		}
-	}
+	const response = await client.publish('twetch/post@0.0.1', {
+		bContent: process.argv[2],
+		bFilename: `twetch-${new Date().getTime()}.txt`,
+		mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+	});
 
 	process.exit();
 })();

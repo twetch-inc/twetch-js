@@ -27,11 +27,11 @@ CLI Usage
 ```
 
 To use the the twetch sdk, you should first visit https://twetch.app/developer and create a client identifier.
-The first time you post, a private key will be created and you will be given a signing address to copy into the Twetch develper page.
-Once you've copied your signing address you are now authenticated to post on Twetch using those signing addresses.
+The first time you post, a private key will be created and you will be given a signing address to copy into the Twetch developer page.
+Once you've copied your signing address you are now authenticated to post on Twetch.
 
 ```javascript
-const twetch = new Twetch({ clientIdentifier: 'your-client-identifier-here' });
+const twetch = new Twetch(options);
 
 // Text Post
 await twetch.publish('twetch/post@0.0.1', {
@@ -40,3 +40,15 @@ await twetch.publish('twetch/post@0.0.1', {
 	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 });
 ```
+
+### Options
+
+- `clientIdentifier` (guid) - Optional. A client identifier from https://twetch.app/developer
+- `network` (string) - Optional. Default `mainnet`
+- `apiUrl` (string) - Optional. Default `https://api.twetch.app/v1`
+- `Wallet` (Class) - Optional. A JavaScript class which implements the following class methods:
+	- `constructor(options)` - Same options passed into the client
+	- `address()` returns (string) - Signing address of the wallet
+	- `balance()` returns (number) - Balance in satoshis
+	- `sign(value)` returns (string) - Signature of the value
+	- `buildTx(data, payees)` returns (string) - Signed raw transaction hex

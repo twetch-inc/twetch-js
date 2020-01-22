@@ -43,27 +43,35 @@ class Client {
 	}
 
 	async buildAndPublish(action, payload) {
-		if (!this.abi || !this.abi.name) {
-			await this.initAbi();
+		try {
+			if (!this.abi || !this.abi.name) {
+				await this.initAbi();
+			}
+			const abi = new BSVABI(this.abi, {
+				network: this.network,
+				sign: value => this.wallet.sign(value),
+				address: () => this.wallet.address.toString(),
+				invoice: () => this.invoice
+			})
+				.action(action)
+				.fromObject(payload);
+			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
+			this.invoice = payeeResponse.invoice;
+			await abi.replace();
+			const tx = await this.wallet.buildTx(abi.toArray(), payeeResponse.payees);
+			const response = await this.publishRequest({
+				signed_raw_tx: tx.toString(),
+				invoice: payeeResponse.invoice,
+				action
+			});
+			return response;
+		} catch (e) {
+			if (e && e.response && e.response.data) {
+				console.log(e.response.data);
+			} else {
+				console.log(e);
+			}
 		}
-		const abi = new BSVABI(this.abi, {
-			network: this.network,
-			sign: value => this.wallet.sign(value),
-			address: () => this.wallet.address.toString(),
-			invoice: () => this.invoice
-		})
-			.action(action)
-			.fromObject(payload);
-		const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
-		this.invoice = payeeResponse.invoice;
-		await abi.replace();
-		const tx = await this.wallet.buildTx(abi.toArray(), payeeResponse.payees);
-		const response = await this.publishRequest({
-			signed_raw_tx: tx.toString(),
-			invoice: payeeResponse.invoice,
-			action
-		});
-		return response;
 	}
 
 	async fetchABI() {

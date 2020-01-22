@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const Twetch = require('./dis/twetch.node.min.js');
+const Twetch = require('./dist/twetch.node.min.js');
 const twetch = new Client();
 
 console.log('Twetch SDK CLI');

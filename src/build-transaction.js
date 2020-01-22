@@ -3,8 +3,8 @@ const bitcoin = require('bsv');
 const axios = require('axios');
 const defaults = {
 	rpc: 'https://api.bitindex.network/api',
-	fee: 400,
-	feeb: 0.5
+	fee: 0,
+	feeb: 1.05
 };
 
 const build = async function(options) {

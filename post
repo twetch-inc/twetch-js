@@ -1,19 +1,29 @@
 #!/usr/bin/env node
 
 const Client = require('./index.js');
-const client = new Client();
-//const client = new Client({ apiUrl: 'http://localhost:3001/v1', network: 'testnet' });
+//const client = new Client();
+const client = new Client({
+	apiUrl: 'http://localhost:3001/v1',
+	network: 'testnet',
+	clientIdentifier: '2725fa95-8c01-47b6-9f76-72610af7f764'
+});
 
 console.log('Twetch SDK CLI');
-console.log('address: ', client.wallet.address.toString());
+console.log('signing address: ', client.wallet.address.toString());
 
 (async () => {
 	try {
 		const balance = await client.wallet.balance();
+
+		if (!balance) {
+			return console.log('No Funds. Please add funds to ', client.wallet.address.toString());
+		}
+
 		console.log('balance: ', balance / 100000000, 'BSV');
-		const response = await client.buildAndPublish('post', {
+
+		const response = await client.buildAndPublish('twetch/post@0.0.1', {
 			bContent: process.argv[2],
-			bFilename: `1harrywon-${new Date().getTime()}.txt`,
+			bFilename: `twetch-${new Date().getTime()}.txt`,
 			mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 		});
 	} catch (e) {

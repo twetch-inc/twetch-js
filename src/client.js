@@ -6,6 +6,8 @@ const Wallet = require('./wallet');
 
 class Client {
 	constructor(options = {}) {
+		this.options = options;
+		this.clientIdentifier = options.clientIdentifier || 'e4c86c79-3eec-4069-a25c-8436ba8c6009';
 		this.network = options.network || 'mainnet';
 		this.wallet = new Wallet(options);
 		this.client = axios.create({ baseURL: options.apiUrl || 'https://api.twetch.app/v1' });
@@ -36,7 +38,8 @@ class Client {
 		const tx = await this.wallet.buildTx(abi.toArray(), payeeResponse.payees);
 		const response = await this.publish({
 			signed_raw_tx: tx.toString(),
-			invoice: payeeResponse.invoice
+			invoice: payeeResponse.invoice,
+			action
 		});
 		return response;
 	}
@@ -47,7 +50,10 @@ class Client {
 	}
 
 	async fetchPayees(payload) {
-		const response = await this.client.post('/payees', payload);
+		const response = await this.client.post('/payees', {
+			...payload,
+			client_identifier: this.clientIdentifier
+		});
 		return response.data;
 	}
 

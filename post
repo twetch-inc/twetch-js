@@ -1,21 +1,15 @@
 #!/usr/bin/env node
 
-const Client = require('./index.js');
-//const client = new Client();
-const client = new Client({
-	apiUrl: 'http://localhost:3001/v1',
-	network: 'testnet',
-	clientIdentifier: '2725fa95-8c01-47b6-9f76-72610af7f764'
-});
+const Twetch = require('./index.js');
+const twetch = new Client();
 
 console.log('Twetch SDK CLI');
 
 (async () => {
-	const response = await client.publish('twetch/post@0.0.1', {
+	await twetch.publish('twetch/post@0.0.1', {
 		bContent: process.argv[2],
 		bFilename: `twetch-${new Date().getTime()}.txt`,
 		mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 	});
-
 	process.exit();
 })();

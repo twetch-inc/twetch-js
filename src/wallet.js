@@ -22,12 +22,8 @@ class Wallet {
 		return privateKey;
 	}
 
-	get address() {
-		return this.privateKey.toAddress();
-	}
-
-	get publicKey() {
-		return this.privateKey.publicKey;
+	address() {
+		return this.privateKey.toAddress().toString();
 	}
 
 	sign(message) {
@@ -35,7 +31,7 @@ class Wallet {
 	}
 
 	async balance() {
-		const response = await axios.get(`${this.rpc}/addr/${this.address.toString()}/utxo`);
+		const response = await axios.get(`${this.rpc}/addr/${this.address()}/utxo`);
 		return response.data.reduce((a, e) => a + e.satoshis, 0);
 	}
 

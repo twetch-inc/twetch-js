@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-This is a JavaScript library to interact with the Tweth API.
+This is a JavaScript library to interact with the Twetch API.
 
 ## Install via NPM
 
@@ -12,25 +12,45 @@ From your project's directory
 npm install @twetch/sdk
 ```
 
-And load the module in your project:
+You can use the twetch sdk as either as a cli or directly in your javascript applications.
+The first time you use the sdk a private key will be generated and saved into a file called `.bit` at the root of your project.
+You will be prompted with an address. In order to post on Twetch you will need to:
+
+1) Copy your address and add it as a signing address on https://twetch.app/developer
+2) Fund your address with some BSV
+
+The quickest way to get started is to run the initialization command from the cli
+
+```bash
+./node_modules/@twetch/sdk/cli init
+```
+
+## CLI Usage
+
+To initialize the sdk cli, in your project's directory run:
+
+```bash
+./node_modules/@twetch/sdk/cli init
+```
+
+After you have completed the initialization steps you can begin using the cli. To post run the following:
+
+```bash
+./node_modules/@twetch/sdk/cli post --content "Hello World from Twetch SDK"
+```
+
+You can see additional commands and usage by running
+
+```bash
+./node_modules/@twetch/sdk/cli --help
+```
+
+## Library Usage
+
+Load the module in your project:
 
 ```javascript
 const Twetch = require('@twetch/sdk');
-```
-
-## Usage
-
-CLI Usage
-
-```bash
-./node_modules/@twetch/sdk/post "Hello World"
-```
-
-To use the the twetch sdk, you should first visit https://twetch.app/developer and create a client identifier.
-The first time you post, a private key will be created and you will be given a signing address to copy into the Twetch developer page.
-Once you've copied your signing address you are now authenticated to post on Twetch.
-
-```javascript
 const twetch = new Twetch(options);
 
 // Text Post

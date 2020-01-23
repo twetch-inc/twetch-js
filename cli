@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+const Twetch = require('./dist/twetch.node.min.js');
+const twetch = new Twetch();
+
+require('yargs')
+	.scriptName('twetch-cli')
+	.usage('$0 post --content "Hello World"')
+	.command('init', 'to get started run this', {}, async argv => {
+		const balance = await twetch.wallet.balance();
+		console.log(
+			`1) copy your signing address (${twetch.wallet.address()}) and add it as a signing address on https://twetch.app/developer`
+		);
+		console.log(`2) fund your address with some BSV (${twetch.wallet.address()})`);
+	})
+	.command(
+		'post',
+		'publish a message on Twetch',
+		yargs =>
+			yargs.option('c', {
+				alias: 'content',
+				describe: 'content you want posted to twetch'
+			}),
+		async argv => {
+			await twetch.publish('twetch/post@0.0.1', {
+				bContent: argv.content,
+				bFilename: `twetch-${new Date().getTime()}.txt`,
+				mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+			});
+			process.exit();
+		}
+	)
+	.command('balance', 'fetch your balance', {}, async argv => {
+		const balance = await twetch.wallet.balance();
+		console.log('balance: ', balance / 100000000, 'BSV');
+		process.exit();
+	})
+	.command('address', 'display your signing address', {}, async argv => {
+		const address = await twetch.wallet.address();
+		console.log('address: ', address);
+		process.exit();
+	})
+	.help().argv;

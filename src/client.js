@@ -9,7 +9,7 @@ class Client {
 		this.options = options;
 		this.clientIdentifier = options.clientIdentifier || 'e4c86c79-3eec-4069-a25c-8436ba8c6009';
 		this.network = options.network || 'mainnet';
-		this.wallet = option.Wallet ? new options.Wallet(options) : new Wallet(options);
+		this.wallet = options.Wallet ? new options.Wallet(options) : new Wallet(options);
 		this.client = axios.create({ baseURL: options.apiUrl || 'https://api.twetch.app/v1' });
 		this.initAbi();
 	}
@@ -22,12 +22,12 @@ class Client {
 
 	async publish(action, payload) {
 		try {
-			console.log('signing address: ', this.wallet.address.toString());
+			console.log('signing address: ', this.wallet.address());
 
 			const balance = await this.wallet.balance();
 
 			if (!balance) {
-				return console.log('No Funds. Please add funds to ', this.wallet.address.toString());
+				return console.log('No Funds. Please add funds to ', this.wallet.address());
 			}
 
 			console.log('balance: ', balance / 100000000, 'BSV');
@@ -50,7 +50,7 @@ class Client {
 			const abi = new BSVABI(this.abi, {
 				network: this.network,
 				sign: value => this.wallet.sign(value),
-				address: () => this.wallet.address.toString(),
+				address: () => this.wallet.address(),
 				invoice: () => this.invoice
 			})
 				.action(action)

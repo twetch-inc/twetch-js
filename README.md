@@ -46,6 +46,9 @@ After you have completed the initialization steps you can begin using the cli. T
 
 # text post with mention and branch 
 ./node_modules/@twetch/sdk/cli post --content "Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255"
+
+# reply
+./node_modules/@twetch/sdk/cli post --content "Hello World from Twetch SDK" --reply 9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255
 ```
 
 You can see additional commands and usage by running:
@@ -83,7 +86,7 @@ twetch.publish('twetch/post@0.0.1', {
 	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 });
 
-// replying
+// reply
 twetch.publish('twetch/post@0.0.1', {
 	bContent: 'Hello World from Twetch SDK',
 	mapReply: '9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255',

@@ -17,16 +17,23 @@ require('yargs')
 		'post',
 		'publish a message on Twetch',
 		yargs =>
-			yargs.option('c', {
-				alias: 'content',
-				describe: 'content you want posted to twetch'
-			}),
+			yargs
+				.option('c', {
+					alias: 'content',
+					describe: 'content you want posted to twetch'
+				})
+				.option('r', {
+					alias: 'reply',
+					describe: 'txid of post to reply to'
+				}),
 		async argv => {
 			await twetch.publish('twetch/post@0.0.1', {
 				bContent: argv.content,
+				mapReply: argv.reply || 'null',
 				bFilename: `twetch-${new Date().getTime()}.txt`,
 				mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 			});
+			console.log('published!');
 			process.exit();
 		}
 	)

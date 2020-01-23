@@ -3,6 +3,9 @@
   "version": "0.1.7",
   "description": "Twetch SDK",
   "main": "dist/twetch.node.min.js",
+  "bin": {
+    "twetch": "cli"
+  },
   "browser": "dist/twetch.min.js",
   "scripts": {
     "build": "npm run build-browser && npm run build-node",
@@ -23,6 +26,8 @@
     "axios": "0.19.1",
     "bsv": "1.2.0",
     "buffer": "5.4.3",
+    "g": "^2.0.1",
+    "path": "0.12.7",
     "yargs": "15.1.0"
   },
   "devDependencies": {

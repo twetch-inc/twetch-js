@@ -3,16 +3,27 @@
 ## Getting Started
 
 This is a JavaScript library to interact with the Twetch API.
+The sdk can be used either as a library in your javascript, or as a command line interface (CLI).
 
 ## Install via NPM
 
-From your project's directory
+To install as a module for use in your own javascript project, from your project's directory run:
 
 ```bash
 npm install @twetch/sdk
 ```
 
-You can use the twetch sdk as either a cli or directly in your javascript applications.
+To install as a CLI run:
+
+```bash
+npm install -g @twetch/sdk
+```
+
+## Wallet
+
+The sdk shipps with a simple one address wallet, however it is designed to work with any wallet.
+Examples for popular wallets including Money Button, Relay and Handcash will be created and documented.
+
 The first time you use the sdk a private key will be generated and saved into a file called `.bit` at the root of your project.
 You will be prompted with an address. 
 
@@ -21,40 +32,34 @@ In order to post on Twetch you will need to:
 1) Copy the generated address and add it as a signing address on https://twetch.app/developer
 2) Fund your address with some BSV
 
+## CLI Usage
+
 The quickest way to get started is to run the initialization command from the cli
 
 ```bash
-./node_modules/@twetch/sdk/cli init
-```
-
-## CLI Usage
-
-To initialize the sdk cli, in your project's directory run:
-
-```bash
-./node_modules/@twetch/sdk/cli init
+twetch init
 ```
 
 After you have completed the initialization steps you can begin using the cli. To post run the following:
 
 ```bash
 # text post
-./node_modules/@twetch/sdk/cli post --content "Hello World from Twetch SDK"
+twetch post --content "Hello World from Twetch SDK"
 
 # text post with mention
-./node_modules/@twetch/sdk/cli post --content "Hello @1 from Twetch SDK"
+twetch post --content "Hello @1 from Twetch SDK"
 
 # text post with mention and branch 
-./node_modules/@twetch/sdk/cli post --content "Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255"
+twetch post --content "Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255"
 
 # reply
-./node_modules/@twetch/sdk/cli post --content "Hello World from Twetch SDK" --reply 9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255
+twetch post --content "Hello World from Twetch SDK" --reply 9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255
 ```
 
 You can see additional commands and usage by running:
 
 ```bash
-./node_modules/@twetch/sdk/cli --help
+twetch --help
 ```
 
 ## Library Usage

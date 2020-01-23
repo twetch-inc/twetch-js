@@ -65,7 +65,7 @@ class Client {
 				invoice: payeeResponse.invoice,
 				action
 			});
-			return response;
+			return { ...response, txid: tx.hash };
 		} catch (e) {
 			if (e && e.response && e.response.data) {
 				console.log(e.response.data);

@@ -1,10 +1,12 @@
+const path = require('path');
+
 class Storage {
 	static get isNode() {
 		return typeof window === 'undefined';
 	}
 
 	static get filePath() {
-		return process.cwd() + '/.bit';
+		return path.normalize(__dirname + '/../../.bit');
 	}
 
 	static get fs() {

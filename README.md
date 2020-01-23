@@ -12,11 +12,13 @@ From your project's directory
 npm install @twetch/sdk
 ```
 
-You can use the twetch sdk as either as a cli or directly in your javascript applications.
+You can use the twetch sdk as either a cli or directly in your javascript applications.
 The first time you use the sdk a private key will be generated and saved into a file called `.bit` at the root of your project.
-You will be prompted with an address. In order to post on Twetch you will need to:
+You will be prompted with an address. 
 
-1) Copy your address and add it as a signing address on https://twetch.app/developer
+In order to post on Twetch you will need to:
+
+1) Copy the generated address and add it as a signing address on https://twetch.app/developer
 2) Fund your address with some BSV
 
 The quickest way to get started is to run the initialization command from the cli
@@ -36,10 +38,17 @@ To initialize the sdk cli, in your project's directory run:
 After you have completed the initialization steps you can begin using the cli. To post run the following:
 
 ```bash
+# text post
 ./node_modules/@twetch/sdk/cli post --content "Hello World from Twetch SDK"
+
+# text post with mention
+./node_modules/@twetch/sdk/cli post --content "Hello @1 from Twetch SDK"
+
+# text post with mention and branch 
+./node_modules/@twetch/sdk/cli post --content "Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255"
 ```
 
-You can see additional commands and usage by running
+You can see additional commands and usage by running:
 
 ```bash
 ./node_modules/@twetch/sdk/cli --help
@@ -47,15 +56,37 @@ You can see additional commands and usage by running
 
 ## Library Usage
 
-Load the module in your project:
+Load the module in your project
 
 ```javascript
 const Twetch = require('@twetch/sdk');
 const twetch = new Twetch(options);
 
-// Text Post
-await twetch.publish('twetch/post@0.0.1', {
-	bContent: 'Hello world from Twetch api',
+// text post
+twetch.publish('twetch/post@0.0.1', {
+	bContent: 'Hello World from Twetch SDK',
+	bFilename: `twetch-${new Date().getTime()}.txt`,
+	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+});
+
+// text post with mention
+twetch.publish('twetch/post@0.0.1', {
+	bContent: 'Hello @1 from Twetch SDK',
+	bFilename: `twetch-${new Date().getTime()}.txt`,
+	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+});
+
+// text post with mention and branch 
+twetch.publish('twetch/post@0.0.1', {
+	bContent: 'Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255',
+	bFilename: `twetch-${new Date().getTime()}.txt`,
+	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+});
+
+// replying
+twetch.publish('twetch/post@0.0.1', {
+	bContent: 'Hello World from Twetch SDK',
+	mapReply: '9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255',
 	bFilename: `twetch-${new Date().getTime()}.txt`,
 	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
 });

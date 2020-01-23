@@ -23,12 +23,14 @@ npm install -g @twetch/sdk
 
 In order to post on Twetch you will need to let Twetch know what address you will sign your data with.
 To do this you can add the address as a signing address on https://twetch.app/developer.
-Any posts signed with your address will show up as posted by your account on twetch.
+Any posts signed with your address will show up as posted by your account on twetch. One Twetch account can have
+many signing addresses so it's possible to use the SDK with many wallets for one user. If you beleive to have lost a key,
+you may revoke that signing address from the Twetch developer page.
 
-# Wallet
+## Wallet
 
 The sdk ships with a simple wallet, however it is designed to work with any wallet.
-Examples for popular wallets including Money Button, Relay and Handcash will be created and documented.
+Examples for popular wallets including Money Button, Relay One and Handcash will be created and documented.
 
 The first time you use the sdk a private key will be generated and saved into a file called `.bit` at the root of your project.
 To see the path of this file run `twetch storage` after initializing the sdk.

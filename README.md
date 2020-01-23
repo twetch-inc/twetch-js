@@ -23,8 +23,8 @@ npm install -g @twetch/sdk
 
 In order to post on Twetch you will need to let Twetch know what address you will sign your data with.
 To do this you can add the address as a signing address on https://twetch.app/developer.
-Any posts signed with your address will show up as posted by your account on twetch. One Twetch account can have
-many signing addresses so it's possible to use the SDK with many wallets for one user. If you beleive to have lost a key,
+Any posts signed with your address will display on Twetch as posted by your account. One Twetch account can have
+many signing addresses so it's possible to use the SDK with any number of wallets. If you beleive to have lost a key,
 you may revoke that signing address from the Twetch developer page.
 
 ## Wallet

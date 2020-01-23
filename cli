@@ -47,4 +47,7 @@ require('yargs')
 		console.log('address: ', address);
 		process.exit();
 	})
+	.command('storage', 'get information about persistant storage', {}, () => {
+		console.log('path', twetch.storage.filePath);
+	})
 	.help().argv;

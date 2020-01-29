@@ -34,7 +34,7 @@ require('yargs')
 		async argv => {
 			const payload = {
 				bContent: argv.file ? undefined : argv.content,
-				mapComment: argv.file && argv.content ? argv.content : 'null',
+				mapComment: (argv.file && argv.content ? argv.content : '') || '',
 				mapReply: argv.reply || 'null'
 			};
 

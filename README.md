@@ -75,31 +75,23 @@ const twetch = new Twetch(options);
 
 // text post
 twetch.publish('twetch/post@0.0.1', {
-	bContent: 'Hello World from Twetch SDK',
-	bFilename: `twetch-${new Date().getTime()}.txt`,
-	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+	bContent: 'Hello World from Twetch SDK'
 });
 
 // text post with mention
 twetch.publish('twetch/post@0.0.1', {
-	bContent: 'Hello @1 from Twetch SDK',
-	bFilename: `twetch-${new Date().getTime()}.txt`,
-	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+	bContent: 'Hello @1 from Twetch SDK'
 });
 
 // text post with mention and branch 
 twetch.publish('twetch/post@0.0.1', {
-	bContent: 'Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255',
-	bFilename: `twetch-${new Date().getTime()}.txt`,
-	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+	bContent: 'Hello @4552 from Twetch SDK https://twetch.app/t/9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255'
 });
 
 // reply
 twetch.publish('twetch/post@0.0.1', {
 	bContent: 'Hello World from Twetch SDK',
-	mapReply: '9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255',
-	bFilename: `twetch-${new Date().getTime()}.txt`,
-	mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+	mapReply: '9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255'
 });
 ```
 

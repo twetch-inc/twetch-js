@@ -7,9 +7,7 @@ console.log('Twetch SDK CLI');
 
 (async () => {
 	await twetch.publish('twetch/post@0.0.1', {
-		bContent: process.argv[2],
-		bFilename: `twetch-${new Date().getTime()}.txt`,
-		mapTimestamp: `${(process.hrtime()[0] * 1000000000 + process.hrtime()[1]).toString()}`
+		bContent: process.argv[2]
 	});
 	process.exit();
 })();

@@ -2,8 +2,7 @@
 
 const Twetch = require('./dist/twetch.node.min.js');
 const fs = require('fs');
-// const twetch = new Twetch();
-const twetch = new Twetch({ apiUrl: 'http://localhost:3001/v1' });
+const twetch = new Twetch();
 
 require('yargs')
 	.scriptName('twetch')
@@ -20,6 +19,10 @@ require('yargs')
 		'publish a message on Twetch',
 		yargs =>
 			yargs
+				.option('f', {
+					alias: 'file',
+					describe: 'path of file you want posted to twetch'
+				})
 				.option('c', {
 					alias: 'content',
 					describe: 'content you want posted to twetch'
@@ -34,13 +37,8 @@ require('yargs')
 				mapComment: argv.file && argv.content ? argv.content : 'null',
 				mapReply: argv.reply || 'null'
 			};
-			let file;
 
-			try {
-				file = fs.readFileSync(process.stdin.fd);
-			} catch (e) {}
-
-			const response = await twetch.publish('twetch/post@0.0.1', payload, file);
+			const response = await twetch.publish('twetch/post@0.0.1', payload, argv.file);
 			if (response.published) {
 				console.log(`published! https://twetch.app/t/${response.txid}`);
 			}

@@ -40,6 +40,8 @@ class Client {
 			} else {
 				console.log(e);
 			}
+
+			return {};
 		}
 	}
 
@@ -64,7 +66,10 @@ class Client {
 			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
 			this.invoice = payeeResponse.invoice;
 			await abi.replace();
+
 			const tx = await this.wallet.buildTx(abi.toArray(), payeeResponse.payees);
+
+			new BSVABI(this.abi, { network: this.network }).action(action).fromTx(tx.toString());
 
 			const response = await this.publishRequest({
 				signed_raw_tx: tx.toString(),
@@ -78,6 +83,8 @@ class Client {
 			} else {
 				console.log(e);
 			}
+
+			return {};
 		}
 	}
 

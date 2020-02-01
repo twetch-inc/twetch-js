@@ -99,7 +99,7 @@ twetch.publish('twetch/post@0.0.1', {
 
 // images / media
 twetch.publish('twetch/post@0.0.1', {
-	bContent: 'Hello World from Twetch SDK',
+	mapComment: 'Hello World from Twetch SDK',
 	mapReply: '9ac9118692f2f0004b3de8e9ec3aad1594291135655f579b2c5b85d364edf255'
 }, './file.png');
 ```

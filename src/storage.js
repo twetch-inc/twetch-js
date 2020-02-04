@@ -1,55 +1,47 @@
 const path = require('path');
+const isNode = typeof window === 'undefined';
+const fs = isNode ? eval(`require('fs')`) : {};
 
 class Storage {
-	static get isNode() {
-		return typeof window === 'undefined';
+	constructor(options) {
+		this.filePath = options.filePath || './.bit';
 	}
 
-	static get filePath() {
-		return path.normalize(__dirname + '/../../.bit');
-	}
-
-	static get fs() {
-		if (Storage.isNode) {
-			return eval(`require('fs')`);
-		}
-	}
-
-	static get file() {
+	get file() {
 		let file = {};
-		if (Storage.isNode) {
+		if (isNode) {
 			try {
-				file = JSON.parse(Storage.fs.readFileSync(Storage.filePath).toString());
+				file = JSON.parse(fs.readFileSync(this.filePath).toString());
 			} catch (e) {}
 		}
 
 		return file;
 	}
 
-	static setItem(key, value) {
-		if (Storage.isNode) {
-			const file = Storage.file;
+	setItem(key, value) {
+		if (isNode) {
+			const file = this.file;
 			file[key] = value;
-			Storage.fs.writeFileSync(Storage.filePath, JSON.stringify(file));
+			fs.writeFileSync(this.filePath, JSON.stringify(file));
 		} else {
 			localStorage.setItem(key, value);
 		}
 	}
 
-	static getItem(key) {
-		if (Storage.isNode) {
-			const file = Storage.file;
+	getItem(key) {
+		if (isNode) {
+			const file = this.file;
 			return file[key];
 		} else {
 			return localStorage.getItem(key);
 		}
 	}
 
-	static removeItem(key) {
-		if (Storage.isNode) {
-			const file = Storage.file;
+	removeItem(key) {
+		if (isNode) {
+			const file = this.file;
 			delete file[key];
-			Storage.fs.writeFileSync(Storage.filePath, JSON.stringify(file));
+			fs.writeFileSync(this.filePath, JSON.stringify(file));
 		} else {
 			localStorage.removeItem(key);
 		}

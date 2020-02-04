@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const Twetch = require('./dist/twetch.node.min.js');
-const twetch = new Twetch();
+const twetch = new Twetch({ filePath: `${__dirname}/.bit` });
 
 require('yargs')
 	.scriptName('twetch')

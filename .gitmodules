@@ -1,3 +1,6 @@
 [submodule "bsvabi"]
 	path = bsvabi
 	url = git@github.com:twetch-inc/bsvabi.git
+[submodule "bsv"]
+	path = bsv
+	url = git@github.com:moneybutton/bsv.git

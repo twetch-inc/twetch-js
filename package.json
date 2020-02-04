@@ -10,8 +10,8 @@
   "scripts": {
     "build": "npm run build-browser && npm run build-node",
     "build-browser": "node_modules/browserify/bin/cmd.js index.js -o dist/twetch.js --standalone twetchjs && node_modules/terser/bin/terser -o dist/twetch.min.js --module --compress --mangle -- dist/twetch.js && rm dist/twetch.js",
-    "build-node": "node_modules/browserify/bin/cmd.js index.js -o dist/twetch.node.js --standalone twetchjs --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/twetch.node.min.js --module --compress --mangle -- dist/twetch.node.js && rm dist/twetch.node.js",
-    "dev": "nodemon --exec npm run build-node"
+    "build-node": "node_modules/browserify/bin/cmd.js index.js -o dist/twetch.node.js --standalone twetchjs --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/twetch.node.min.js --module --compress --mangle -- dist/twetch.node.js && rm dist/twetch.node.js && rm dist/twetch.node.js.tmp-*",
+    "dev": "nodemon --exec npm run build"
   },
   "nodemonConfig": {
     "ignore": [
@@ -30,9 +30,7 @@
   "homepage": "https://github.com/twetch-inc/twetch-js#readme",
   "dependencies": {
     "axios": "0.19.1",
-    "bsv": "1.2.0",
     "buffer": "5.4.3",
-    "path": "0.12.7",
     "yargs": "15.1.0"
   },
   "devDependencies": {

@@ -1,6 +1,10 @@
 const _Buffer = require('buffer/');
-const bitcoin = require('bsv');
 const axios = require('axios');
+
+const PrivateKey = require('../bsvabi/bsv/lib/privatekey');
+const Transaction = require('../bsvabi/bsv/lib/transaction');
+const Script = require('../bsvabi/bsv/lib/script');
+const Opcode = require('../bsvabi/bsv/lib/opcode');
 
 const build = async function(options) {
 	let script = null;
@@ -10,17 +14,17 @@ const build = async function(options) {
 	}
 
 	let key = options.pay.key;
-	const privateKey = new bitcoin.PrivateKey(key);
+	const privateKey = new PrivateKey(key);
 	const address = privateKey.toAddress();
 
 	const response = await axios.post(`${rpcaddr}/addrs/utxo`, {
 		addrs: [address.toString()].join(',')
 	});
 	const res = response.data;
-	let tx = new bitcoin.Transaction(options.tx).from(res);
+	let tx = new Transaction(options.tx).from(res);
 
 	if (script) {
-		tx.addOutput(new bitcoin.Transaction.Output({ script: script, satoshis: 0 }));
+		tx.addOutput(new Transaction.Output({ script: script, satoshis: 0 }));
 	}
 
 	options.pay.to.forEach(function(receiver) {
@@ -42,9 +46,9 @@ const build = async function(options) {
 };
 
 const _script = function(options) {
-	let s = new bitcoin.Script();
-	s.add(bitcoin.Opcode.OP_FALSE);
-	s.add(bitcoin.Opcode.OP_RETURN);
+	let s = new Script();
+	s.add(Opcode.OP_FALSE);
+	s.add(Opcode.OP_RETURN);
 	options.data.forEach(function(item) {
 		if (item.constructor.name === 'ArrayBuffer') {
 			let buffer = _Buffer.Buffer.from(item);

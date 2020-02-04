@@ -1,26 +1,28 @@
-const bitcoin = require('bsv');
-const Message = require('bsv/message');
 const Storage = require('./storage');
 const buildTransaction = require('./build-transaction');
 const axios = require('axios');
 
+const PrivateKey = require('../bsv/lib/privatekey');
+const Message = require('../bsv/message');
+
 class Wallet {
 	constructor(options = {}) {
+		this.storage = new Storage(options);
 		this.feeb = options.feeb || 0.55;
 		this.network = options.network || 'mainnet';
 	}
 
 	get privateKey() {
-		let privateKey = Storage.getItem(`${this.network}PrivateKey`);
+		let privateKey = this.storage.getItem(`${this.network}PrivateKey`);
 
 		if (!privateKey) {
-			privateKey = bitcoin.PrivateKey.fromRandom(this.network);
-			Storage.setItem(`${this.network}PrivateKey`, privateKey.toString());
+			privateKey = PrivateKey.fromRandom(this.network);
+			this.storage.setItem(`${this.network}PrivateKey`, privateKey.toString());
 		} else {
-			privateKey = bitcoin.PrivateKey.fromString(privateKey);
+			privateKey = PrivateKey.fromString(privateKey);
 		}
 
-		if (!this.didShowWarning && !Storage.getItem('didBackup')) {
+		if (!this.didShowWarning && !this.storage.getItem('didBackup')) {
 			this.didShowWarning = true;
 			console.log(
 				'\nWarning: If you loose your wallet private key, you will not be able to access the wallet.'
@@ -36,13 +38,13 @@ class Wallet {
 	}
 
 	backup() {
-		Storage.setItem('didBackup', true);
+		this.storage.setItem('didBackup', true);
 		console.log(`\nWrite down your private key and keep it somewhere safe: "${this.privateKey}"\n`)
 	}
 
 	restore(data) {
-		const privateKey = bitcoin.PrivateKey(data);
-		Storage.setItem(`${this.network}PrivateKey`, privateKey.toString());
+		const privateKey = PrivateKey(data);
+		this.storage.setItem(`${this.network}PrivateKey`, privateKey.toString());
 	}
 
 	address() {

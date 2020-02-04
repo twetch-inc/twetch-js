@@ -35,13 +35,7 @@ class Client {
 
 			return this.buildAndPublish(action, payload, file);
 		} catch (e) {
-			if (e && e.response && e.response.data) {
-				console.log(e.response.data);
-			} else {
-				console.log(e);
-			}
-
-			return {};
+			return handleError(e)
 		}
 	}
 
@@ -78,13 +72,7 @@ class Client {
 			});
 			return { ...response, txid: tx.hash };
 		} catch (e) {
-			if (e && e.response && e.response.data) {
-				console.log(e.response.data);
-			} else {
-				console.log(e);
-			}
-
-			return {};
+			return handleError(e);
 		}
 	}
 
@@ -105,6 +93,18 @@ class Client {
 		const response = await this.client.post('/publish', payload);
 		return response.data;
 	}
+}
+
+function handleError(e) {
+	if (e && e.response && e.response.data) {
+		console.log(e.response.data);
+	} else if (e.toString) {
+		console.log(e.toString());
+	} else {
+		console.log(e);
+	}
+
+	return {};
 }
 
 module.exports = Client;

@@ -1,18 +1,29 @@
 #!/usr/bin/env node
 
 const Twetch = require('./dist/twetch.node.min.js');
-const fs = require('fs');
 const twetch = new Twetch();
 
 require('yargs')
 	.scriptName('twetch')
-	.usage('$0 post --content "Hello World"')
 	.command('init', 'to get started run this', {}, async argv => {
 		const balance = await twetch.wallet.balance();
 		console.log(
 			`1) copy your signing address (${twetch.wallet.address()}) and add it as a signing address on https://twetch.app/developer`
 		);
 		console.log(`2) fund your address with some BSV (${twetch.wallet.address()})`);
+	})
+	.command('address', 'display your wallet signing address', {}, async argv => {
+		const address = await twetch.wallet.address();
+		console.log('address: ', address);
+		process.exit();
+	})
+	.command('backup', 'backup your wallet', {}, () => {
+		twetch.wallet.backup();
+	})
+	.command('balance', 'fetch your wallet balance', {}, async argv => {
+		const balance = await twetch.wallet.balance();
+		console.log('balance: ', balance / 100000000, 'BSV');
+		process.exit();
 	})
 	.command(
 		'post',
@@ -45,16 +56,19 @@ require('yargs')
 			process.exit();
 		}
 	)
-	.command('balance', 'fetch your balance', {}, async argv => {
-		const balance = await twetch.wallet.balance();
-		console.log('balance: ', balance / 100000000, 'BSV');
-		process.exit();
-	})
-	.command('address', 'display your signing address', {}, async argv => {
-		const address = await twetch.wallet.address();
-		console.log('address: ', address);
-		process.exit();
-	})
+	.command(
+		'restore',
+		'restore your wallet',
+		yargs => yargs.option('k', { alias: 'key', describe: 'private key WIF' }),
+		argv => {
+			if (!argv.key) {
+				return console.log('you must specify a private key');
+			}
+
+			twetch.wallet.restore(argv.key);
+			console.log('Wallet restored from private key');
+		}
+	)
 	.command('storage', 'get information about persistant storage', {}, () => {
 		console.log('path', twetch.storage.filePath);
 	})

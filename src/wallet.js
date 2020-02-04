@@ -20,7 +20,29 @@ class Wallet {
 			privateKey = bitcoin.PrivateKey.fromString(privateKey);
 		}
 
+		if (!this.didShowWarning && !Storage.getItem('didBackup')) {
+			this.didShowWarning = true;
+			console.log(
+				'\nWarning: If you loose your wallet private key, you will not be able to access the wallet.'
+			);
+			console.log('The wallet included in the sdk should only be used with small amounts of bsv.');
+			console.log('To backup your wallet, run "twetch.wallet.backup()" or "twetch backup"');
+			console.log(
+				`To restore your wallet from a private key, run 'twetch.wallet.restore("private-key-here")' or 'twetch restore -k "private-key-here"'\n`
+			);
+		}
+
 		return privateKey;
+	}
+
+	backup() {
+		Storage.setItem('didBackup', true);
+		console.log(`\nWrite down your private key and keep it somewhere safe: "${this.privateKey}"\n`)
+	}
+
+	restore(data) {
+		const privateKey = bitcoin.PrivateKey(data);
+		Storage.setItem(`${this.network}PrivateKey`, privateKey.toString());
 	}
 
 	address() {

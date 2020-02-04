@@ -6,6 +6,7 @@ const axios = require('axios');
 
 class Wallet {
 	constructor(options = {}) {
+		this.feeb = options.feeb || 0.55;
 		this.network = options.network || 'mainnet';
 	}
 
@@ -53,7 +54,8 @@ class Wallet {
 			pay: {
 				rpc: this.rpc,
 				key: this.privateKey.toString(),
-				to
+				to,
+				feeb: this.feeb
 			}
 		});
 

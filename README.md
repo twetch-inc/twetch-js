@@ -109,12 +109,12 @@ twetch.publish('twetch/post@0.0.1', {
 - `clientIdentifier` (guid) - Optional. A client identifier from https://twetch.app/developer
 - `filePath` (string) - Optional. Path to file for persistant storage. Default project directory.
 - `network` (string) - Optional. Default `mainnet`
-- `Storage` (Class) - Optional. In the browser, localStorage will be used. A JavaScript class which implements the following class methods:
+- `Storage` (Class) - Optional. Accessible after initializing via `intance.storage`. In the browser, localStorage will be used. A JavaScript class which implements the following class methods:
 	- `file()` returns (json) - key/value pairs saved in storage
 	- `setItem(key, value)` - set a key/value pair in storage
 	- `getItem(key)` - returns (string) - get a value by key from storage
 	- `removeItem(key)` - remove a key/value pair from storage
-- `Wallet` (Class) - Optional. A JavaScript class which implements the following class methods:
+- `Wallet` (Class) - Optional. Accessible after initializing via `intance.wallet`. A JavaScript class which implements the following class methods:
 	- `constructor(options)` - Same options passed into the client
 	- `address()` returns (string) - Signing address of the wallet
 	- `backup()` - returns (string) - A message about backing up your key

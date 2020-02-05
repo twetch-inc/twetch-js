@@ -107,7 +107,7 @@ twetch.publish('twetch/post@0.0.1', {
 
 - `apiUrl` (string) - Optional. Default `https://api.twetch.app/v1`
 - `clientIdentifier` (guid) - Optional. A client identifier from https://twetch.app/developer
-- `feeb` (number) - Optional. Satoshis per byte in your transaction. Default 0.25.
+- `feeb` (number) - Optional. Satoshis per byte in your transaction. Default 0.3.
 - `filePath` (string) - Optional. Path to file for persistant storage. Default project directory.
 - `network` (string) - Optional. Default `mainnet`
 - `Storage` (Class) - Optional. Accessible after initializing via `instance.storage`. In the browser, localStorage will be used. A JavaScript class which implements the following class methods:

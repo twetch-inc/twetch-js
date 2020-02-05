@@ -1,4 +1,3 @@
-const path = require('path');
 const isNode = typeof window === 'undefined';
 const fs = isNode ? eval(`require('fs')`) : {};
 

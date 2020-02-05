@@ -2,8 +2,8 @@ const Storage = require('./storage');
 const buildTransaction = require('./build-transaction');
 const axios = require('axios');
 
-const PrivateKey = require('../bsv/lib/privatekey');
-const Message = require('../bsv/message');
+const PrivateKey = require('../bsvabi/bsv/lib/privatekey');
+const Message = require('../bsvabi/bsv/message');
 
 class Wallet {
 	constructor(options = {}) {

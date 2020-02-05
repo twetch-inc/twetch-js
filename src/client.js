@@ -1,4 +1,4 @@
-const BSVABI = require('../bsvabi');
+const BSVABI = require('../bsvabi/bsvabi');
 const axios = require('axios');
 
 const Storage = require('./storage');
@@ -65,7 +65,6 @@ class Client {
 
 			new BSVABI(this.abi, { network: this.network }).action(action).fromTx(tx.toString());
 
-			return;
 			const response = await this.publishRequest({
 				signed_raw_tx: tx.toString(),
 				invoice: payeeResponse.invoice,

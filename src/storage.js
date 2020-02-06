@@ -1,16 +1,19 @@
 const isNode = typeof window === 'undefined';
-const fs = isNode ? eval(`require('fs')`) : {};
 
 class Storage {
 	constructor(options) {
 		this.filePath = options.filePath || './.bit';
 	}
 
+	get fs() {
+		return isNode ? eval(`require('fs')`) : {};
+	}
+
 	get file() {
 		let file = {};
 		if (isNode) {
 			try {
-				file = JSON.parse(fs.readFileSync(this.filePath).toString());
+				file = JSON.parse(this.fs.readFileSync(this.filePath).toString());
 			} catch (e) {}
 		}
 
@@ -21,7 +24,7 @@ class Storage {
 		if (isNode) {
 			const file = this.file;
 			file[key] = value;
-			fs.writeFileSync(this.filePath, JSON.stringify(file));
+			this.fs.writeFileSync(this.filePath, JSON.stringify(file));
 		} else {
 			localStorage.setItem(key, value);
 		}
@@ -40,7 +43,7 @@ class Storage {
 		if (isNode) {
 			const file = this.file;
 			delete file[key];
-			fs.writeFileSync(this.filePath, JSON.stringify(file));
+			this.fs.writeFileSync(this.filePath, JSON.stringify(file));
 		} else {
 			localStorage.removeItem(key);
 		}

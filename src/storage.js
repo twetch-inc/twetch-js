@@ -21,31 +21,43 @@ class Storage {
 	}
 
 	setItem(key, value) {
-		if (isNode) {
-			const file = this.file;
-			file[key] = value;
-			this.fs.writeFileSync(this.filePath, JSON.stringify(file));
-		} else {
-			localStorage.setItem(key, value);
+		try {
+			if (isNode) {
+				const file = this.file;
+				file[key] = value;
+				this.fs.writeFileSync(this.filePath, JSON.stringify(file));
+			} else {
+				localStorage.setItem(key, value);
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	}
 
 	getItem(key) {
-		if (isNode) {
-			const file = this.file;
-			return file[key];
-		} else {
-			return localStorage.getItem(key);
+		try {
+			if (isNode) {
+				const file = this.file;
+				return file[key];
+			} else {
+				return localStorage.getItem(key);
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	}
 
 	removeItem(key) {
-		if (isNode) {
-			const file = this.file;
-			delete file[key];
-			this.fs.writeFileSync(this.filePath, JSON.stringify(file));
-		} else {
-			localStorage.removeItem(key);
+		try {
+			if (isNode) {
+				const file = this.file;
+				delete file[key];
+				this.fs.writeFileSync(this.filePath, JSON.stringify(file));
+			} else {
+				localStorage.removeItem(key);
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	}
 }

@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>Twetch SDK - MoneyButton</title>
+		<script src="https://unpkg.com/@twetch/sdk@0.1.19/dist/twetch.min.js"></script>
+		<script src="https://www.moneybutton.com/moneybutton.js"></script>
+		<script src="https://unpkg.com/bsv@0.30.0/bsv.min.js"></script>
+	</head>
+	<body>
+		<p>Twetch SDK Moneybutton Example</p>
+		<div id="moneybutton"></div>
+	</body>
+	<script>
+		init();
+		async function init() {
+			const sdk = new twetchjs();
+			const { abi, payees } = await sdk.build('twetch/post@0.0.1', { bContent: 'Hello World from Twetch SDK w/ MoneyButton' });
+			const outputs = [{
+				currency: 'BSV',
+				amount: 0,
+				script: bsv.Script.buildSafeDataOut(abi.toArray()).toASM()
+			}].concat(payees);
+
+			moneyButton.render(document.getElementById('moneybutton'), {
+				label: 'Twetch It',
+				outputs,
+				cryptoOperations: [
+					{
+						name: 'myAddress',
+						method: 'address',
+						key: 'identity'
+					},
+					{
+						name: 'mySignature',
+						method: 'sign',
+						data: abi.contentHash(),
+						dataEncoding: 'utf8',
+						key: 'identity',
+						algorithm: 'bitcoin-signed-message'
+					}
+				],
+				onPayment: async (payment) => {
+					await sdk.publishRequest({ signed_raw_tx: payment.raytx, action: 'twetch/post@0.0.1' });
+				}
+			});
+		}
+	</script>
+</html>

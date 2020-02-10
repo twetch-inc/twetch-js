@@ -60,6 +60,9 @@ twetch post --content "Hello World from Twetch SDK" --reply 9ac9118692f2f0004b3d
 
 # images / media
 twetch post --content "Hello World" --file file.png 
+
+# Likes
+twetch like -t abda4a05b98a60e9098f0cccebe5948118189d1b161a0372c35fac654eb87e30
 ```
 
 You can see additional commands and usage by running:
@@ -101,6 +104,12 @@ twetch.publish('twetch/post@0.0.1', {
 twetch.publish('twetch/post@0.0.1', {
 	mapComment: 'Hello World from Twetch SDK'
 }, './file.png');
+
+
+// likes
+twetch.like('twetch/like@0.0.1', {
+	postTransaction: 'abda4a05b98a60e9098f0cccebe5948118189d1b161a0372c35fac654eb87e30'
+});
 ```
 
 ### Options

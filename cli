@@ -26,6 +26,25 @@ require('yargs')
 		process.exit();
 	})
 	.command(
+		'like',
+		'like a twetch post',
+		yargs =>
+			yargs.option('t', {
+				alias: 'transaction',
+				describe: 'txid of the post to like'
+			}),
+		async argv => {
+			const payload = {
+				postTransaction: argv.transaction
+			};
+
+			const response = await twetch.publish('twetch/like@0.0.1', payload);
+			if (response.published) {
+				console.log(`liked! https://twetch.app/t/${argv.transaction}`);
+			}
+		}
+	)
+	.command(
 		'post',
 		'publish a message on Twetch',
 		yargs =>

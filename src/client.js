@@ -55,6 +55,7 @@ class Client {
 			}
 			abi.fromObject(payload);
 
+
 			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
 			this.invoice = payeeResponse.invoice;
 			await abi.replace({
@@ -69,9 +70,9 @@ class Client {
 
 	async buildAndPublish(action, payload, file) {
 		try {
-			const { abi, payees, invoice } = this.build(action, payload, file);
+			const { abi, payees, invoice } = await this.build(action, payload, file);
 			await abi.replace({
-				'#{mySignature}': value => this.wallet.sign(value),
+				sign: value => this.wallet.sign(value),
 				'#{myAddress}': () => this.wallet.address()
 			});
 			const tx = await this.wallet.buildTx(abi.toArray(), payees);

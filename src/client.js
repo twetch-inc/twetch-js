@@ -74,7 +74,12 @@ class Client {
 				'#{mySignature}': () => this.wallet.sign(abi.contentHash()),
 				'#{myAddress}': () => this.wallet.address()
 			});
-			const tx = await this.wallet.buildTx(abi.toArray(), payees);
+			const tx = await this.wallet.buildTx(abi.toArray(), payees, action);
+
+			if (this.wallet.canPublish) {
+				return { txid: tx.hash, abi }
+			}
+
 			new BSVABI(this.abi, { network: this.network }).action(action).fromTx(tx.toString());
 			const response = await this.publishRequest({
 				signed_raw_tx: tx.toString(),

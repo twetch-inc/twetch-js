@@ -55,7 +55,6 @@ class Client {
 			}
 			abi.fromObject(payload);
 
-
 			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
 			this.invoice = payeeResponse.invoice;
 			await abi.replace({
@@ -72,7 +71,7 @@ class Client {
 		try {
 			const { abi, payees, invoice } = await this.build(action, payload, file);
 			await abi.replace({
-				sign: value => this.wallet.sign(value),
+				'#{mySignature}': () => this.wallet.sign(abi.contentHash()),
 				'#{myAddress}': () => this.wallet.address()
 			});
 			const tx = await this.wallet.buildTx(abi.toArray(), payees);
@@ -82,7 +81,7 @@ class Client {
 				invoice,
 				action
 			});
-			return { ...response, txid: tx.hash };
+			return { ...response, txid: tx.hash, abi };
 		} catch (e) {
 			return handleError(e);
 		}
@@ -110,6 +109,9 @@ class Client {
 function handleError(e) {
 	if (e && e.response && e.response.data) {
 		console.log(e.response.data);
+		if (e.response.status === 401) {
+			return { error: 'unauthenticated' };
+		}
 	} else if (e.toString) {
 		console.log(e.toString());
 	} else {

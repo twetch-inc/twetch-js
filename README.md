@@ -78,7 +78,15 @@ Load the module in your project
 ```javascript
 const Twetch = require('@twetch/sdk');
 const twetch = new Twetch(options);
+```
 
+The first time you use the library follow the instructons printed in the console by running
+
+```javascript
+twetch.init()
+```
+
+```javascript
 // text post
 twetch.publish('twetch/post@0.0.1', {
 	bContent: 'Hello World from Twetch SDK'

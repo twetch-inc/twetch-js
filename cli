@@ -6,11 +6,7 @@ const twetch = new Twetch({ filePath: `${__dirname}/.bit` });
 require('yargs')
 	.scriptName('twetch')
 	.command('init', 'to get started run this', {}, async argv => {
-		const balance = await twetch.wallet.balance();
-		console.log(
-			`1) copy your signing address (${twetch.wallet.address()}) and add it as a signing address on https://twetch.app/developer`
-		);
-		console.log(`2) fund your address with some BSV (${twetch.wallet.address()})`);
+		twetch.init();
 	})
 	.command('address', 'display your wallet signing address', {}, async argv => {
 		const address = await twetch.wallet.address();

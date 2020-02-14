@@ -15,6 +15,18 @@ class Client {
 		this.initAbi();
 	}
 
+	async init() {
+		console.log(
+			`1) copy the following to add as a signing address on https://twetch.app/developer`
+		);
+		const message = 'twetch-api-rocks';
+		console.log('\nbsv address: ', this.wallet.address());
+		console.log('message: ', message);
+		console.log('signature: ', this.wallet.sign(message));
+		console.log('\n');
+		console.log(`2) fund your address with some BSV (${this.wallet.address()})`);
+	}
+
 	async initAbi() {
 		this.abi = JSON.parse(this.storage.getItem('abi') || '{}');
 		this.abi = await this.fetchABI();
@@ -77,7 +89,7 @@ class Client {
 			const tx = await this.wallet.buildTx(abi.toArray(), payees, action);
 
 			if (this.wallet.canPublish) {
-				return { txid: tx.hash, abi }
+				return { txid: tx.hash, abi };
 			}
 
 			new BSVABI(this.abi, { network: this.network }).action(action).fromTx(tx.toString());

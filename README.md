@@ -80,11 +80,13 @@ const Twetch = require('@twetch/sdk');
 const twetch = new Twetch(options);
 ```
 
-The first time you use the library follow the instructons printed in the console by running
+The first time you use the library follow the instructons printed in the console by running:
 
 ```javascript
 twetch.init()
 ```
+
+After following the instructions you may now start to use the library to interact with twetch
 
 ```javascript
 // text post

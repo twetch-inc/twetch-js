@@ -15,6 +15,10 @@ class Client {
 		this.initAbi();
 	}
 
+	get BSVABI() {
+		return BSVABI;
+	}
+
 	async init() {
 		console.log(
 			`1) copy the following to add as a signing address on https://twetch.app/developer`
@@ -131,11 +135,13 @@ function handleError(e) {
 		}
 	} else if (e.toString) {
 		console.log(e.toString());
+		return { error: e.toString() };
 	} else {
+		return { error: e };
 		console.log(e);
 	}
 
-	return {};
+	return { error: 'something went wrong' };
 }
 
 module.exports = Client;

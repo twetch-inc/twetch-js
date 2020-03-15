@@ -6,9 +6,19 @@ const Transaction = require('../bsvabi/bsv/lib/transaction');
 const Script = require('../bsvabi/bsv/lib/script');
 const Opcode = require('../bsvabi/bsv/lib/opcode');
 
+const fetchUtxos = async options => {
+	let rpcaddr = options.pay.rpc;
+	let key = options.pay.key;
+	const privateKey = new PrivateKey(key);
+	const address = privateKey.toAddress();
+	const response = await axios.post(`${rpcaddr}/addrs/utxo`, {
+		addrs: [address.toString()].join(',')
+	});
+	return response.data;
+};
+
 const build = async function(options) {
 	let script = null;
-	let rpcaddr = options.pay.rpc;
 	if (options.data) {
 		script = _script(options);
 	}
@@ -17,11 +27,13 @@ const build = async function(options) {
 	const privateKey = new PrivateKey(key);
 	const address = privateKey.toAddress();
 
-	const response = await axios.post(`${rpcaddr}/addrs/utxo`, {
-		addrs: [address.toString()].join(',')
-	});
-	const res = response.data;
-	let tx = new Transaction(options.tx).from(res);
+	let utxos = options.pay.utxos;
+
+	if (!utxos) {
+		utxos = await fetchUtxos(options);
+	}
+
+	let tx = new Transaction(options.tx).from(utxos);
 
 	if (script) {
 		tx.addOutput(new Transaction.Output({ script: script, satoshis: 0 }));
@@ -68,4 +80,5 @@ const _script = function(options) {
 	return s;
 };
 
+exports.fetchUtxos = fetchUtxos;
 module.exports = build;

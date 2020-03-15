@@ -8,7 +8,7 @@ const Message = require('../bsvabi/bsv/message');
 class Wallet {
 	constructor(options = {}) {
 		this.storage = new Storage(options);
-		this.feeb = options.feeb || 0.30;
+		this.feeb = options.feeb || 0.3;
 		this.network = options.network || 'mainnet';
 	}
 
@@ -39,7 +39,7 @@ class Wallet {
 
 	backup() {
 		this.storage.setItem('didBackup', true);
-		console.log(`\nWrite down your private key and keep it somewhere safe: "${this.privateKey}"\n`)
+		console.log(`\nWrite down your private key and keep it somewhere safe: "${this.privateKey}"\n`);
 	}
 
 	restore(data) {
@@ -67,7 +67,14 @@ class Wallet {
 		}[this.network];
 	}
 
-	async buildTx(data, payees = []) {
+	async utxos() {
+		const response = await axios.post(`${this.rpc}/addrs/utxo`, {
+			addrs: [this.address()].join(',')
+		});
+		return response.data;
+	}
+
+	async buildTx(data, payees = [], options = {}) {
 		const to = payees.map(e => ({
 			address: e.to,
 			value: parseInt((e.amount * 100000000).toFixed(0), 10)
@@ -79,7 +86,8 @@ class Wallet {
 				rpc: this.rpc,
 				key: this.privateKey.toString(),
 				to,
-				feeb: this.feeb
+				feeb: this.feeb,
+				utxos: options.utxos
 			}
 		});
 

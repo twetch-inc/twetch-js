@@ -115,9 +115,17 @@ twetch.publish('twetch/post@0.0.1', {
 	mapComment: 'Hello World from Twetch SDK'
 }, './file.png');
 
+// Tweet from Twetch
+twetch.publish('twetch/post@0.0.1', {
+	bContent: 'test',
+	payParams: {
+		tweetFromTwetch: true, // optional - tweets this Twetch
+		hideTweetFromTwetchLink: true // optional - hides Twetch link in tweet
+	}
+});
 
 // likes
-twetch.like('twetch/like@0.0.1', {
+twetch.publish('twetch/like@0.0.1', {
 	postTransaction: 'abda4a05b98a60e9098f0cccebe5948118189d1b161a0372c35fac654eb87e30'
 });
 ```

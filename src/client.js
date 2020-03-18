@@ -100,7 +100,8 @@ class Client {
 			const response = await this.publishRequest({
 				signed_raw_tx: tx.toString(),
 				invoice,
-				action
+				action,
+				payParams: payload.payParams
 			});
 			return { ...response, txid: tx.hash, abi };
 		} catch (e) {

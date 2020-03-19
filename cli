@@ -56,10 +56,19 @@ require('yargs')
 				.option('r', {
 					alias: 'reply',
 					describe: 'txid of post to reply to'
+				})
+				.option('t', {
+					alias: 'tweet',
+					describe: 'tweet from twetch'
+				})
+				.option('h', {
+					alias: 'hide',
+					describe: 'hide tweet from twetch link'
 				}),
 		async argv => {
 			const payload = {
 				bContent: argv.file ? undefined : argv.content,
+				payParams: { tweetFromTwetch: argv.tweet || false, hideTweetFromTwetchLink: argv.hide || false },
 				mapComment: (argv.file && argv.content ? argv.content : '') || '',
 				mapReply: argv.reply || 'null'
 			};

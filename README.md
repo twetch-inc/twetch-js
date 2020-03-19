@@ -63,6 +63,12 @@ twetch post --content "Hello World" --file file.png
 
 # Likes
 twetch like -t abda4a05b98a60e9098f0cccebe5948118189d1b161a0372c35fac654eb87e30
+
+# Tweet from Twetch
+twetch post --content "Hello Twitter from Twetch" --tweet y
+
+# Hide Twetch link from Twitter
+twetch post --content "Hello Twitter from Twetch" --hide y
 ```
 
 You can see additional commands and usage by running:

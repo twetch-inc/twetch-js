@@ -77,7 +77,7 @@ class Client {
 				'#{invoice}': () => payeeResponse.invoice
 			});
 
-			return { abi, payees: payeeResponse.payees, invoice: payeeResponse.invoice };
+			return { abi, payees: payeeResponse.payees, invoice: payeeResponse.invoice, estimate: payeeResponse.estimate };
 		} catch (e) {
 			return handleError(e);
 		}

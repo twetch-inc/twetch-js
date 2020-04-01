@@ -3,6 +3,7 @@ const axios = require('axios');
 
 const Storage = require('./storage');
 const Wallet = require('./wallet');
+const AuthApi = require('../shared-helpers/auth-api');
 
 class Client {
 	constructor(options = {}) {
@@ -17,6 +18,49 @@ class Client {
 
 	get BSVABI() {
 		return BSVABI;
+	}
+
+	async authenticate() {
+		let token = this.storage.getItem('tokenTwetchAuth');
+
+		if (!token) {
+			const authApi = new AuthApi();
+			const message = await authApi.challenge();
+			const signature = this.wallet.sign(message);
+			const address = this.wallet.address();
+			token = await authApi.authenticate({ message, signature, address });
+		}
+
+		this.client = axios.create({
+			baseURL: this.options.apiUrl || 'https://api.twetch.app/v1',
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
+		this.storage.setItem('tokenTwetchAuth', token);
+		return token;
+	}
+
+	async query(query, variables = {}) {
+		const response = await this.client.post('/graphql', {
+			operationName: 'me',
+			variables,
+			query
+		});
+
+		return response;
+	}
+
+	async me() {
+		const response = await this.query(`
+			query me {
+				me {
+					id
+				}
+			}
+		`);
+
+		return response.data;
 	}
 
 	async init() {

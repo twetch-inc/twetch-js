@@ -4,3 +4,6 @@
 [submodule "bsv"]
 	path = bsv
 	url = git@github.com:moneybutton/bsv.git
+[submodule "shared-helpers"]
+	path = shared-helpers
+	url = git@github.com:twetch-inc/shared-helpers.git

@@ -19,6 +19,23 @@ an options object can have the following keys:
 - `Storage` (Class) - Optional.  A JavaScript class which implements [Storage](docs/storage.md). Accessible after initializing via `instance.storage`.
 - `Wallet` (Class) - Optional. A JavaScript class which implements [Wallet](docs/wallet.md). Accessible after initializing via `instance.wallet`. 
 
+## Read Api
+
+To build your queries, visit the dashboard https://api.twetch.app/v1/graphiql.
+To authenticate on the dashboard copy your token from `twetch.authenticate()` and add it as a bearer token under "Headers". ex. `"Authorization": "Bearer token-goes-here"`
+
+```javascript
+const token = await twetch.authenticate();
+const response = await twetch.query(`
+	query {
+		userById(id: "1") {
+			id
+			name
+		}
+	}
+`)
+```
+
 ## Examples
 
 ### Text post
@@ -80,7 +97,7 @@ twetch.publish('twetch/post@0.0.1', {
 
 ### Likes
 
-```
+```javascript
 twetch.publish('twetch/like@0.0.1', {
 	postTransaction: 'abda4a05b98a60e9098f0cccebe5948118189d1b161a0372c35fac654eb87e30'
 });

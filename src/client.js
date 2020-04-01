@@ -43,24 +43,22 @@ class Client {
 
 	async query(query, variables = {}) {
 		const response = await this.client.post('/graphql', {
-			operationName: 'me',
 			variables,
 			query
 		});
 
-		return response;
+		return response.data.data;
 	}
 
-	async me() {
-		const response = await this.query(`
-			query me {
+	me() {
+		return this.query(`
+			query {
 				me {
 					id
+					name
 				}
 			}
 		`);
-
-		return response.data;
 	}
 
 	async init() {

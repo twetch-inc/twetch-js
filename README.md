@@ -32,8 +32,14 @@ you may revoke that signing address from the Twetch developer page.
 The sdk ships with a simple wallet, however it is designed to work with any wallet.
 Examples for popular wallets including Money Button, Relay One and Handcash will be created and documented.
 
+[Wallet Documentation](docs/wallet.md)
+
+## Storage
+
 The first time you use the sdk a private key will be generated and saved into a file called `.bit` at the root of your project.
 To see the path of this file run `twetch storage` after initializing the sdk.
+
+[Storage Documentation](docs/storage.md)
 
 ## CLI Usage
 
@@ -49,7 +55,7 @@ After you have completed the initialization steps you can begin using the cli. T
 twetch post --content "Hello World from Twetch SDK"
 ```
 
-[CLI Documentation](docs/cli.md);
+[CLI Documentation](docs/cli.md)
 
 ## Library Usage
 
@@ -74,4 +80,4 @@ twetch.publish('twetch/post@0.0.1', {
 });
 ```
 
-[Library Documentation](docs/library.md);
+[Library Documentation](docs/library.md)

@@ -12,7 +12,12 @@ class Client {
 		this.clientIdentifier = options.clientIdentifier || 'e4c86c79-3eec-4069-a25c-8436ba8c6009';
 		this.network = options.network || 'mainnet';
 		this.wallet = options.Wallet ? new options.Wallet(options) : new Wallet(options);
-		this.client = axios.create({ baseURL: options.apiUrl || 'https://api.twetch.app/v1' });
+		this.client = axios.create({
+			baseURL: options.apiUrl || 'https://api.twetch.app/v1',
+			headers: {
+				Authorization: `Bearer ${this.storage.getItem('tokenTwetchAuth')}`
+			}
+		});
 		this.initAbi();
 	}
 

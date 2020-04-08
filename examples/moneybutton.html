@@ -21,7 +21,6 @@
             const sdk = new twetchjs();
             let post = document.getElementById('post').value;
             let { abi, payees } = await sdk.build('twetch/post@0.0.1', { bContent: post });
-            console.log(abi.args[1]);
 			const outputs = [{
 				currency: 'BSV',
 				amount: 0,

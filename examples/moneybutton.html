@@ -17,10 +17,10 @@
 	</body>
 	<script>
         init();
-		async function init() {
+	    async function init() {
             const sdk = new twetchjs();
             let post = document.getElementById('post').value;
-            let { abi, payees } = await sdk.build('twetch/post@0.0.1', { bContent: post });
+            const { abi, payees } = await sdk.build('twetch/post@0.0.1', { bContent: post });
 			const outputs = [{
 				currency: 'BSV',
 				amount: 0,

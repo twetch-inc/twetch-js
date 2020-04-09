@@ -7,7 +7,7 @@ const Message = require('../bsvabi/bsv/message');
 
 class Wallet {
 	constructor(options = {}) {
-		this.storage = new Storage(options);
+		this.storage = options.Storage ? new options.Storage(options) : new Storage(options);
 		this.feeb = options.feeb || 0.3;
 		this.network = options.network || 'mainnet';
 	}

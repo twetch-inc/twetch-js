@@ -3,14 +3,14 @@
   "version": "0.1.30",
   "description": "Twetch SDK",
   "main": "dist/twetch.node.min.js",
+  "browser": "dist/twetch.min.js",
   "bin": {
     "twetch": "cli"
   },
-  "browser": "dist/twetch.min.js",
   "scripts": {
     "build": "npm run build-browser && npm run build-node",
-    "build-browser": "node_modules/browserify/bin/cmd.js index.js -o dist/twetch.js --standalone twetchjs && node_modules/terser/bin/terser -o dist/twetch.min.js --module --compress --mangle -- dist/twetch.js && rm dist/twetch.js && rm -f dist/twetch.js.tmp-* || true",
-    "build-node": "node_modules/browserify/bin/cmd.js index.js -o dist/twetch.node.js --standalone twetchjs --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/twetch.node.min.js --module --compress --mangle -- dist/twetch.node.js && rm dist/twetch.node.js && rm -f dist/twetch.node.js.tmp-* || true",
+    "build-browser": "node_modules/browserify/bin/cmd.js src/clients/browser.js -o dist/twetch.js --standalone twetchjs && node_modules/terser/bin/terser -o dist/twetch.min.js --module --compress --mangle -- dist/twetch.js && rm dist/twetch.js && rm -f dist/twetch.js.tmp-* || true",
+    "build-node": "node_modules/browserify/bin/cmd.js src/clients/node.js -o dist/twetch.node.js --standalone twetchjs --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/twetch.node.min.js --module --compress --mangle -- dist/twetch.node.js && rm dist/twetch.node.js && rm -f dist/twetch.node.js.tmp-* || true",
     "dev": "nodemon --exec npm run build",
     "test": "jest src/"
   },

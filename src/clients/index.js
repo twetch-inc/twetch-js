@@ -1,17 +1,20 @@
-const BSVABI = require('../bsvabi/bsvabi');
+const BSVABI = require('../../bsvabi/bsvabi');
 const axios = require('axios');
-
-const Storage = require('./storage/in-memory-storage');
-const Wallet = require('./wallet/simple-wallet');
-const AuthApi = require('../shared-helpers/auth-api');
+const InMemoryStorage = require('../storage/in-memory-storage');
+const SimpleWallet = require('../wallet/simple-wallet');
+const AuthApi = require('../../shared-helpers/auth-api');
 
 class Client {
 	constructor(options = {}) {
 		this.options = options;
-		this.storage = options.Storage ? new options.Storage(options) : new Storage(options);
+
+		const Storage = options.Storage || InMemoryStorage;
+		const Wallet = options.Wallet || SimpleWallet;
+
+		this.storage = new Storage(options);
+		this.wallet = new Wallet({ ...options, Storage });
 		this.clientIdentifier = options.clientIdentifier || 'e4c86c79-3eec-4069-a25c-8436ba8c6009';
 		this.network = options.network || 'mainnet';
-		this.wallet = options.Wallet ? new options.Wallet(options) : new Wallet(options);
 		this.client = axios.create({
 			baseURL: options.apiUrl || 'https://api.twetch.app/v1',
 			headers: {

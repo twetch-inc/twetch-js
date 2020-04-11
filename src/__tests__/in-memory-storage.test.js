@@ -1,4 +1,4 @@
-const InMemoryStorage = require('./in-memory-storage');
+const InMemoryStorage = require('../storage/in-memory-storage');
 const storage = new InMemoryStorage();
 
 const key = 'foo';

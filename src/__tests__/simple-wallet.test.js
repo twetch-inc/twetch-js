@@ -1,4 +1,4 @@
-const SimpleWallet = require('./simple-wallet');
+const SimpleWallet = require('../wallet/simple-wallet');
 const wallet = new SimpleWallet();
 wallet.storage.setItem('didBackup', true);
 

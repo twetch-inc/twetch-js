@@ -1,5 +1,5 @@
 const fs = require('fs');
-const FileStorage = require('./file-storage');
+const FileStorage = require('../storage/file-storage');
 const filePath = `${__dirname}/.bit-temp`;
 const storage = new FileStorage({ filePath });
 

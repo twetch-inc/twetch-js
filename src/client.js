@@ -1,14 +1,14 @@
 const BSVABI = require('../bsvabi/bsvabi');
 const axios = require('axios');
 
-const Storage = require('./storage');
-const Wallet = require('./wallet');
+const Storage = require('./storage/in-memory-storage');
+const Wallet = require('./wallet/simple-wallet');
 const AuthApi = require('../shared-helpers/auth-api');
 
 class Client {
 	constructor(options = {}) {
 		this.options = options;
-		this.storage = new Storage(options);
+		this.storage = options.Storage ? new options.Storage(options) : new Storage(options);
 		this.clientIdentifier = options.clientIdentifier || 'e4c86c79-3eec-4069-a25c-8436ba8c6009';
 		this.network = options.network || 'mainnet';
 		this.wallet = options.Wallet ? new options.Wallet(options) : new Wallet(options);

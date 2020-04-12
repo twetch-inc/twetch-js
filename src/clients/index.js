@@ -6,11 +6,10 @@ const AuthApi = require('../../shared-helpers/auth-api');
 
 class Client {
 	constructor(options = {}) {
-		this.options = options;
-
 		const Storage = options.Storage || InMemoryStorage;
 		const Wallet = options.Wallet || SimpleWallet;
 
+		this.options = options;
 		this.storage = new Storage(options);
 		this.wallet = new Wallet({ ...options, Storage });
 		this.clientIdentifier = options.clientIdentifier || 'e4c86c79-3eec-4069-a25c-8436ba8c6009';
@@ -175,6 +174,11 @@ class Client {
 	async publishRequest(payload) {
 		const response = await this.client.post('/publish', payload);
 		return response.data;
+	}
+
+	async bsvPrice() {
+		const { data } = await axios.get('https://wallet-api.twetch.app/api/exchange-rate');
+		return data.price;
 	}
 }
 

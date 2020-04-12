@@ -8,7 +8,9 @@ const axios = require('axios');
 class SimpleWallet extends BaseWallet {
 	constructor(options = {}) {
 		super(options);
-		this.storage = options.Storage ? new options.Storage(options) : new InMemoryStorage(options);
+		const Storage = options.Storage || InMemoryStorage;
+
+		this.storage = new Storage(options);
 		this.feeb = options.feeb || 0.3;
 		this.network = options.network || 'mainnet';
 	}

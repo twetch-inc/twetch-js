@@ -1,4 +1,5 @@
 const BaseStorage = require('./base-storage');
+const isNode = typeof window === 'undefined';
 
 class LocalStorage extends BaseStorage {
 	constructor(options) {
@@ -6,15 +7,15 @@ class LocalStorage extends BaseStorage {
 	}
 
 	setItem(key, value) {
-		localStorage.setItem(key, value);
+		!isNode && localStorage.setItem(key, value);
 	}
 
 	getItem(key) {
-		localStorage.getItem(key);
+		return !isNode && localStorage.getItem(key);
 	}
 
 	removeItem(key) {
-		localStorage.removeItem(key);
+		!isNode && localStorage.removeItem(key);
 	}
 }
 

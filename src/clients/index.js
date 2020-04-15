@@ -45,6 +45,7 @@ class Client {
 			}
 		});
 		this.storage.setItem('tokenTwetchAuth', token);
+		this.authenticated = true;
 		return token;
 	}
 
@@ -119,6 +120,10 @@ class Client {
 				abi.fromFile(file);
 			}
 			abi.fromObject(payload);
+
+			if (!this.authenticated) {
+				this.authenticate();
+			}
 
 			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
 			this.invoice = payeeResponse.invoice;

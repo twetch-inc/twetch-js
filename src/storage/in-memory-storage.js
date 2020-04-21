@@ -1,7 +1,7 @@
 const BaseStorage = require('./base-storage');
 
 class InMemoryStorage extends BaseStorage {
-	constructor(options) {
+	constructor(options = {}) {
 		super(options);
 		this.map = {};
 	}

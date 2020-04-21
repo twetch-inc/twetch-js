@@ -2,7 +2,7 @@ const BaseStorage = require('./base-storage');
 const isNode = typeof window === 'undefined';
 
 class LocalStorage extends BaseStorage {
-	constructor(options) {
+	constructor(options = {}) {
 		super(options);
 	}
 

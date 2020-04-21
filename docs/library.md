@@ -13,8 +13,6 @@ an options object can have the following keys:
 
 - `apiUrl` (string) - Optional. Default `https://api.twetch.app/v1`
 - `clientIdentifier` (guid) - Optional. A client identifier from https://twetch.app/developer
-- `feeb` (number) - Optional. Satoshis per byte in your transaction. Default 0.3.
-- `filePath` (string) - Optional. Path to file for persistant storage. Default project directory.
 - `network` (string) - Optional. Default `mainnet`
 - `Storage` (Class) - Optional.  A JavaScript class which implements [Storage](docs/storage.md). Accessible after initializing via `instance.storage`.
 - `Wallet` (Class) - Optional. A JavaScript class which implements [Wallet](docs/wallet.md). Accessible after initializing via `instance.wallet`. 

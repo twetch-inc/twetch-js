@@ -1,7 +1,7 @@
 const BaseStorage = require('./base-storage');
 
 class FileStorage extends BaseStorage {
-	constructor(options) {
+	constructor(options = {}) {
 		super(options);
 		this.filePath = options.filePath || './.bit';
 	}

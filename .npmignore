@@ -4,7 +4,7 @@
 .gitmodules
 .prettierrc
 bsvabi
-index.js
-src
+coverage
+dosc/
 examples
 scripts

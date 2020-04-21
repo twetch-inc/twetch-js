@@ -22,6 +22,13 @@ class CustomWallet {
 const twetch = new Twetch({ Wallet: CustomWallet });
 ```
 
+## Options
+
+An options object can have the following keys. The options object from the client will also be passed to the wallet.
+
+- `privateKey` (string) - private key to initialize the wallet with
+- `feeb` (number) - Optional. Satoshis per byte in your transaction. Default 0.3.
+
 ## Methods
 
 ### `address()`

@@ -38,13 +38,13 @@ class Client {
 			token = await authApi.authenticate({ message, signature, address });
 		}
 
+		this.storage.setItem('tokenTwetchAuth', token);
 		this.client = axios.create({
 			baseURL: this.options.apiUrl || 'https://api.twetch.app/v1',
 			headers: {
-				Authorization: `Bearer ${token}`
+				Authorization: `Bearer ${this.storage.getItem('tokenTwetchAuth')}`
 			}
 		});
-		this.storage.setItem('tokenTwetchAuth', token);
 		this.authenticated = true;
 		return token;
 	}
@@ -122,7 +122,7 @@ class Client {
 			abi.fromObject(payload);
 
 			if (!this.authenticated) {
-				this.authenticate();
+				await this.authenticate();
 			}
 
 			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });

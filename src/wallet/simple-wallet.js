@@ -13,6 +13,10 @@ class SimpleWallet extends BaseWallet {
 		this.storage = new Storage(options);
 		this.feeb = options.feeb || 0.3;
 		this.network = options.network || 'mainnet';
+
+		if (options.privateKey) {
+			this.restore(options.privateKey);
+		}
 	}
 
 	get privateKey() {

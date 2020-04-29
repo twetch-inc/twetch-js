@@ -3,6 +3,7 @@ const axios = require('axios');
 const InMemoryStorage = require('../storage/in-memory-storage');
 const SimpleWallet = require('../wallet/simple-wallet');
 const AuthApi = require('../../shared-helpers/auth-api');
+const Helpers = require('../../shared-helpers/index');
 
 class Client {
 	constructor(options = {}) {
@@ -21,6 +22,10 @@ class Client {
 			}
 		});
 		this.initAbi();
+	}
+
+	get Helpers() {
+		return Helpers;
 	}
 
 	get BSVABI() {

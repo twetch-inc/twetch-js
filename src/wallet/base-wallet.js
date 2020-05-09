@@ -15,7 +15,7 @@ class BaseWallet {
 		throw new Error('you must implement `balance`');
 	}
 
-	async buildTx(message) {
+	async buildTx(data, payees) {
 		throw new Error('you must implement `buildTx`');
 	}
 };

@@ -1,6 +1,6 @@
 {
   "name": "@twetch/sdk",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Twetch SDK",
   "main": "dist/twetch.node.min.js",
   "browser": "dist/twetch.min.js",

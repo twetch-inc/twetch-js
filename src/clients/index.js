@@ -35,7 +35,7 @@ class Client {
 	async authenticate() {
 		let token = this.storage.getItem('tokenTwetchAuth');
 
-		if (!token) {
+		if (!this.authenticated) {
 			const authApi = new AuthApi();
 			const message = await authApi.challenge();
 			const signature = this.wallet.sign(message);

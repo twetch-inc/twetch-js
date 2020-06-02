@@ -11,7 +11,7 @@ class SimpleWallet extends BaseWallet {
 		const Storage = options.Storage || InMemoryStorage;
 
 		this.storage = new Storage(options);
-		this.feeb = options.feeb || 0.3;
+		this.feeb = options.feeb || 0.5;
 		this.network = options.network || 'mainnet';
 
 		if (options.privateKey) {

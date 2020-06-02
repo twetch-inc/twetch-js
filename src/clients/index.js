@@ -160,7 +160,8 @@ class Client {
 				signed_raw_tx: tx.toString(),
 				invoice,
 				action,
-				payParams: payload.payParams
+				payParams: payload.payParams,
+				broadcast: true
 			});
 			return { ...response, txid: tx.hash, abi };
 		} catch (e) {

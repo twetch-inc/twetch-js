@@ -1,9 +1,6 @@
 [submodule "bsvabi"]
 	path = bsvabi
-	url = git@github.com:twetch-inc/bsvabi.git
-[submodule "bsv"]
-	path = bsv
-	url = git@github.com:moneybutton/bsv.git
+	url = https://github.com/twetch-inc/bsvabi.git
 [submodule "shared-helpers"]
 	path = shared-helpers
-	url = git@github.com:twetch-inc/shared-helpers.git
+	url = https://github.com/twetch-inc/shared-helpers.git

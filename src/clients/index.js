@@ -4,6 +4,7 @@ const InMemoryStorage = require('../storage/in-memory-storage');
 const SimpleWallet = require('../wallet/simple-wallet');
 const AuthApi = require('../../shared-helpers/auth-api');
 const Helpers = require('../../shared-helpers/index');
+const crypto = require('../crypto')
 
 class Client {
 	constructor(options = {}) {
@@ -30,6 +31,10 @@ class Client {
 
 	get BSVABI() {
 		return BSVABI;
+	}
+
+	get crypto() {
+		return crypto;
 	}
 
 	async authenticate() {
@@ -188,7 +193,7 @@ class Client {
 	}
 
 	async bsvPrice() {
-		const { data } = await axios.get('https://wallet-api.twetch.app/api/exchange-rate');
+		const { data } = await axios.get('https://cloud-functions.twetch.app/api/exchange-rate');
 		return data.price;
 	}
 }

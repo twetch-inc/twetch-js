@@ -1,4 +1,4 @@
-const BSVABI = require('../bsvabi');
+const BSVABI = require('../bsvabi/bsvabi');
 const ecies = require('../bsvabi/bsv/ecies');
 const Crypto = require('../shared-helpers/crypto');
 const Buffer = require('buffer/');

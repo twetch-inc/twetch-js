@@ -4,7 +4,7 @@ const InMemoryStorage = require('../storage/in-memory-storage');
 const SimpleWallet = require('../wallet/simple-wallet');
 const AuthApi = require('../../shared-helpers/auth-api');
 const Helpers = require('../../shared-helpers/index');
-const crypto = require('../crypto')
+const crypto = require('../crypto');
 
 class Client {
 	constructor(options = {}) {
@@ -37,7 +37,7 @@ class Client {
 		return crypto;
 	}
 
-	async authenticate() {
+	async authenticate(options = {}) {
 		let token = this.storage.getItem('tokenTwetchAuth');
 
 		if (!this.authenticated) {
@@ -45,7 +45,7 @@ class Client {
 			const message = await authApi.challenge();
 			const signature = this.wallet.sign(message);
 			const address = this.wallet.address();
-			token = await authApi.authenticate({ message, signature, address });
+			token = await authApi.authenticate({ message, signature, address, v2: !!options.create });
 		}
 
 		this.storage.setItem('tokenTwetchAuth', token);

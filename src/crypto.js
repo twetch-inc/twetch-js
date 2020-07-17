@@ -1,7 +1,4 @@
-const BSVABI = require('../bsvabi');
-const bsv = require('bsv');
-const IES = require('bsv/ecies');
-const Mnemonic = require('bsv/mnemonic');
+const BSVABI = require('../bsvabi/bsvabi');
 const twetchPublicKey = "022f01e5e15cca351daff3843fb70f3c2f0a1bdd05e5af888a67784ef3e10a2a01";
 const ecies = require('../bsvabi/bsv/ecies');
 const Crypto = require('../shared-helpers/crypto');
@@ -17,7 +14,7 @@ class TwetchCrypto {
 	}
 
 	static generateAesKey(l = 32) {
-		return bsv.crypto.Hash.sha256(bsv.PrivateKey().toBuffer()).toString('hex').substring(l);
+		return BSVABI.bitcoin.crypto.Hash.sha256(BSVABI.bsv.PrivateKey().toBuffer()).toString('hex').substring(l);
 	}
 
 	static eciesEncrypt(plainText, publicKey) {
@@ -42,23 +39,23 @@ class TwetchCrypto {
 	}
 
 	static ecdhEncrypt(message, priv) {
-		const key = bsv.PrivateKey(priv);
-		const ecdh = new IES({'nokey':true}).privateKey(key).publicKey(twetchPublicKey);
+		const key = BSVABI.bitcoin.PrivateKey(priv);
+		const ecdh = new BSVABI.IES({'nokey':true}).privateKey(key).publicKey(twetchPublicKey);
 		const encrypted = ecdh.encrypt(message);
 		return encrypted.toString("hex");
 	}
 	
 	static ecdhDecrypt(encrypted, priv, pub) {
-		const encryptedBuffer = bsv.deps.Buffer.from(encrypted, 'hex');
-		const key = bsv.PrivateKey(priv);
-		const ecdh = new IES({'nokey':true}).privateKey(key).publicKey(pub);
+		const encryptedBuffer = BSVABI.bitcoin.deps.Buffer.from(encrypted, 'hex');
+		const key = BSVABI.bitcoin.PrivateKey(priv);
+		const ecdh = new BSVABI.IES({'nokey':true}).privateKey(key).publicKey(pub);
 		const message = ecdh.decrypt(encryptedBuffer);
 		return message.toString();
 	}
 
 	static privFromMnemonic(m){
-		const mnemonic = Mnemonic.fromString(m);
-		const xpriv = bsv.HDPrivateKey.fromSeed(mnemonic.toSeed());
+		const mnemonic = BSVABI.Mnemonic.fromString(m);
+		const xpriv = BSVABI.bitcoin.HDPrivateKey.fromSeed(mnemonic.toSeed());
 		return xpriv.deriveChild('m/0/0').privateKey.toString();
 	}
 }

@@ -37,6 +37,30 @@ class Client {
 		return crypto;
 	}
 
+	async createMnemonic() {
+		const mnemonic = this.crypto.generateMnemonic();
+		return this.syncPublicKeys(mnemonic);
+	}
+
+	async syncPublicKeys(mnemonic) {
+		const priv = this.crypto.privFromMnemonic(mnemonic);
+		const pub = this.BSVABI.bitcoin.PrivateKey.fromString(priv)
+			.toPublicKey()
+			.toString();
+		let {
+			me: { publicKeys }
+		} = await this.me();
+
+		publicKeys = publicKeys.nodes.filter(e => !e.encryptedMnemonic && e.identityPublicKey);
+
+		for (let each of publicKeys) {
+			const encryptedMnemonic = this.crypto.eciesEncrypt(mnemonic, each.identityPublicKey);
+			await this.updatePublicKey(each.id, { encryptedMnemonic });
+		}
+
+		await this.updateMe({ publicKey: pub });
+	}
+
 	async authenticate(options = {}) {
 		let token = this.storage.getItem('tokenTwetchAuth');
 
@@ -74,9 +98,45 @@ class Client {
 				me {
 					id
 					name
+					publicKey
+					publicKeys: publicKeysByUserId {
+						nodes {
+							id
+							signingAddress
+							identityPublicKey
+							encryptedMnemonic
+						}
+					}
 				}
 			}
 		`);
+	}
+
+	async updateMe(payload) {
+		const { me } = await this.me();
+		return this.query(
+			`
+			mutation updateUser($payload: UserPatch!, $id: BigInt!) {
+				updateUserById(input: {userPatch: $payload, id: $id}) {
+					clientMutationId
+				}
+			}
+		`,
+			{ payload, id: me.id }
+		);
+	}
+
+	async updatePublicKey(id, payload) {
+		return this.query(
+			`
+			mutation updatePublicKey($payload: PublicKeyPatch!, $id: UUID!) {
+				updatePublicKeyById(input: {publicKeyPatch: $payload, id: $id}) {
+					clientMutationId
+				}
+			}
+		`,
+			{ payload, id }
+		);
 	}
 
 	async init() {

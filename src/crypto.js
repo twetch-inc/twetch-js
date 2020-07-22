@@ -2,7 +2,7 @@ const BSVABI = require('../bsvabi/bsvabi');
 const twetchPublicKey = '022f01e5e15cca351daff3843fb70f3c2f0a1bdd05e5af888a67784ef3e10a2a01';
 const ecies = require('../bsvabi/bsv/ecies');
 const Crypto = require('../shared-helpers/crypto');
-const Buffer = require('buffer/');
+const Buffer = require('buffer/').Buffer;
 global.window = global;
 
 class TwetchCrypto {
@@ -21,7 +21,6 @@ class TwetchCrypto {
 	}
 
 	static eciesEncrypt(plainText, publicKey) {
-		const priv = BSVABI.bitcoin.PrivateKey.fromString(demoPrivateKey);
 		return new ecies()
 			.publicKey(publicKey)
 			.encrypt(plainText)
@@ -30,10 +29,10 @@ class TwetchCrypto {
 
 	static eciesDecrypt(encryptedHex, privateKey) {
 		try {
-			const priv = BSVABI.bitcoin.PrivateKey.fromString(demoPrivateKey);
+			const priv = new BSVABI.bitcoin.PrivateKey(privateKey);
 			const decryptedMessage = new ecies()
-				.privateKey(privateKey)
-				.decrypt(Buffer.from(encryptedMessage, 'base64'))
+				.privateKey(priv)
+				.decrypt(Buffer.from(encryptedHex, 'base64'))
 				.toString();
 			return decryptedMessage;
 		} catch (e) {
@@ -62,7 +61,7 @@ class TwetchCrypto {
 		return xpriv.deriveChild('m/0/0').privateKey.toString();
 	}
 
-	static async generateMnemonic() {
+	static generateMnemonic() {
 		return BSVABI.Mnemonic.fromRandom().toString();
 	}
 }

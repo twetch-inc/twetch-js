@@ -7,15 +7,17 @@ global.window = global;
 
 class TwetchCrypto {
 	static aesEncrypt(plainText, key) {
+		key = Buffer.from(key, 'hex');
 		return Crypto.aesEncrypt(plainText, key);
 	}
 
 	static aesDecrypt(encryptedHex, key) {
+		key = Buffer.from(key, 'hex');
 		return Crypto.aesDecrypt(encryptedHex, key);
 	}
 
 	static generateAesKey(l = 32) {
-		return BSVABI.bitcoin.crypto.Hash.sha256(BSVABI.bsv.PrivateKey().toBuffer())
+		return BSVABI.bitcoin.crypto.Hash.sha256(BSVABI.bitcoin.PrivateKey().toBuffer())
 			.toString('hex')
 			.substring(l);
 	}
@@ -59,6 +61,11 @@ class TwetchCrypto {
 		const mnemonic = BSVABI.Mnemonic.fromString(m);
 		const xpriv = BSVABI.bitcoin.HDPrivateKey.fromSeed(mnemonic.toSeed());
 		return xpriv.deriveChild('m/0/0').privateKey.toString();
+	}
+
+	static pubFromMnemonic(m) {
+		const priv = this.privFromMnemonic(m);
+		return new BSVABI.bitcoin.PrivateKey(priv).toPublicKey().toString()
 	}
 
 	static generateMnemonic() {

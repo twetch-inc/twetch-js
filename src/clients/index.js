@@ -102,6 +102,7 @@ class Client {
 					publicKeys: publicKeysByUserId {
 						nodes {
 							id
+							walletType
 							signingAddress
 							identityPublicKey
 							encryptedMnemonic

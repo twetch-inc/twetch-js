@@ -44,21 +44,35 @@ class Client {
 
 	async syncPublicKeys(mnemonic) {
 		const priv = this.crypto.privFromMnemonic(mnemonic);
-		const pub = this.BSVABI.bitcoin.PrivateKey.fromString(priv)
-			.toPublicKey()
-			.toString();
+		const pub = this.crypto.pubFromMnemonic(mnemonic);
+		const me = await this.me();
+
 		let {
-			me: { publicKeys }
+			me: { publicKey, publicKeys }
 		} = await this.me();
+
+		if (publicKey && publicKey !== pub) {
+			return; // seed changed
+		}
 
 		publicKeys = publicKeys.nodes.filter(e => !e.encryptedMnemonic && e.identityPublicKey);
 
 		for (let each of publicKeys) {
+			let data = each.identityPublicKey;
+
+			if (each.walletType === 'onebutton') {
+				data = `1harryntQnTKu5RGajGokZGqP2v8mZKJm::${data}`;
+			}
+
 			const encryptedMnemonic = this.crypto.eciesEncrypt(mnemonic, each.identityPublicKey);
 			await this.updatePublicKey(each.id, { encryptedMnemonic });
 		}
 
-		await this.updateMe({ publicKey: pub });
+		if (!publicKey) {
+			await this.updateMe({ publicKey: pub });
+		}
+
+		return mnemonic;
 	}
 
 	async authenticate(options = {}) {

@@ -58,13 +58,13 @@ class Client {
 		publicKeys = publicKeys.nodes.filter(e => !e.encryptedMnemonic && e.identityPublicKey);
 
 		for (let each of publicKeys) {
-			let data = each.identityPublicKey;
+			let data = mnemonic;
 
 			if (each.walletType === 'onebutton') {
 				data = `1harryntQnTKu5RGajGokZGqP2v8mZKJm::${data}`;
 			}
 
-			const encryptedMnemonic = this.crypto.eciesEncrypt(mnemonic, each.identityPublicKey);
+			const encryptedMnemonic = this.crypto.eciesEncrypt(data, each.identityPublicKey);
 			await this.updatePublicKey(each.id, { encryptedMnemonic });
 		}
 

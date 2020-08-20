@@ -2,6 +2,7 @@ const _Buffer = require('buffer/');
 const axios = require('axios');
 
 const PrivateKey = require('../bsvabi/bsv/lib/privatekey');
+const Address = require('../bsvabi/bsv/lib/address');
 const Transaction = require('../bsvabi/bsv/lib/transaction');
 const Script = require('../bsvabi/bsv/lib/script');
 const Opcode = require('../bsvabi/bsv/lib/opcode');

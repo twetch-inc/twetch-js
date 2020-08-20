@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "npm run build-browser && npm run build-node && npm run build-in-memory",
-    "build-in-memory": "node_modules/browserify/bin/cmd.js src/clients/index.js -o dist/twetch.in-memory.js --standalone twetchjs && node_modules/terser/bin/terser -o dist/twetch.in-memory.min.js --module --compress --mangle -- dist/twetch.in-memory.js && rm dist/twetch.in-memory.js && rm -f dist/twetch.in-memory.js.tmp-* || true",
+    "build-in-memory": "node_modules/browserify/bin/cmd.js src/clients/index.js -o dist/twetch.in-memory.js --standalone twetchjs --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/twetch.in-memory.min.js --module --compress --mangle -- dist/twetch.in-memory.js && rm dist/twetch.in-memory.js && rm -f dist/twetch.in-memory.js.tmp-* || true",
     "build-browser": "node_modules/browserify/bin/cmd.js src/clients/browser.js -o dist/twetch.js --standalone twetchjs && node_modules/terser/bin/terser -o dist/twetch.min.js --module --compress --mangle -- dist/twetch.js && rm dist/twetch.js && rm -f dist/twetch.js.tmp-* || true",
     "build-node": "node_modules/browserify/bin/cmd.js src/clients/node.js -o dist/twetch.node.js --standalone twetchjs --node --dg --im --no-builtins && node_modules/terser/bin/terser -o dist/twetch.node.min.js --module --compress --mangle -- dist/twetch.node.js && rm dist/twetch.node.js && rm -f dist/twetch.node.js.tmp-* || true",
     "dev": "nodemon --exec npm run build",

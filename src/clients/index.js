@@ -113,7 +113,7 @@ class Client {
 					id
 					name
 					publicKey
-					publicKeys: publicKeysByUserId {
+					publicKeys: publicKeysByUserId(filter: { revokedAt: { isNull: true } }) {
 						nodes {
 							id
 							walletType

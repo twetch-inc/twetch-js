@@ -45,7 +45,6 @@ class Client {
 	async syncPublicKeys(mnemonic) {
 		const priv = this.crypto.privFromMnemonic(mnemonic);
 		const pub = this.crypto.pubFromMnemonic(mnemonic);
-		const me = await this.me();
 
 		let {
 			me: { publicKey, publicKeys }

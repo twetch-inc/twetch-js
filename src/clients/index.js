@@ -54,17 +54,39 @@ class Client {
 			return; // seed changed
 		}
 
-		publicKeys = publicKeys.nodes.filter(e => !e.encryptedMnemonic && e.identityPublicKey);
+		publicKeys = publicKeys.nodes.filter(
+			e => !e.encryptedMnemonic && e.address && e.address.includes('@')
+		);
 
 		for (let each of publicKeys) {
 			let data = mnemonic;
+
+			let identityPublicKey = each.identityPublicKey;
+
+			if (!identityPublicKey) {
+				let url;
+
+				if (each.address.includes('relayx.io')) {
+					url = 'https://relayx.io/bsvalias/id/';
+				}
+
+				if (each.address.includes('moneybutton.com')) {
+					url = 'https://moneybutton.com/api/v1/bsvalias/id/';
+				}
+
+				const { data: bsvalias } = await axios.get(
+					`https://cloud-functions.twetch.app/api/bsvalias?address=${each.address}`
+				);
+
+				identityPublicKey = bsvalias.pubkey;
+			}
 
 			if (each.walletType === 'onebutton') {
 				data = `1harryntQnTKu5RGajGokZGqP2v8mZKJm::${data}`;
 			}
 
-			const encryptedMnemonic = this.crypto.eciesEncrypt(data, each.identityPublicKey);
-			await this.updatePublicKey(each.id, { encryptedMnemonic });
+			const encryptedMnemonic = this.crypto.eciesEncrypt(data, identityPublicKey);
+			await this.updatePublicKey(each.id, { encryptedMnemonic, identityPublicKey });
 		}
 
 		if (!publicKey) {
@@ -119,6 +141,7 @@ class Client {
 							signingAddress
 							identityPublicKey
 							encryptedMnemonic
+							address
 						}
 					}
 				}

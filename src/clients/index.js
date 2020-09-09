@@ -212,7 +212,7 @@ class Client {
 		}
 	}
 
-	async build(action, payload, file) {
+	async build(action, payload, file, clientIdentifier) {
 		try {
 			if (!this.abi || !this.abi.name) {
 				await this.initAbi();
@@ -232,7 +232,7 @@ class Client {
 				await this.authenticate();
 			}
 
-			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action });
+			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action, clientIdentifier });
 			this.invoice = payeeResponse.invoice;
 			await abi.replace({
 				'#{invoice}': () => payeeResponse.invoice
@@ -277,9 +277,11 @@ class Client {
 	}
 
 	async fetchPayees(payload) {
+		const clientIdentifier = Object.assign(payload.clientIdentifier || this.clientIdentifier);
+		delete payload.clientIdentifier;
 		const response = await this.client.post('/payees', {
 			...payload,
-			client_identifier: this.clientIdentifier
+			client_identifier: clientIdentifier
 		});
 		return response.data;
 	}

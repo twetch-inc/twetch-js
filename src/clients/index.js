@@ -55,7 +55,11 @@ class Client {
 		}
 
 		publicKeys = publicKeys.nodes.filter(
-			e => !e.encryptedMnemonic && e.address && e.address.includes('@')
+			e =>
+				!e.encryptedMnemonic &&
+				e.address &&
+				e.address.includes('@') &&
+				!e.address.includes('handcash')
 		);
 
 		for (let each of publicKeys) {
@@ -232,7 +236,11 @@ class Client {
 				await this.authenticate();
 			}
 
-			const payeeResponse = await this.fetchPayees({ args: abi.toArray(), action, clientIdentifier });
+			const payeeResponse = await this.fetchPayees({
+				args: abi.toArray(),
+				action,
+				clientIdentifier
+			});
 			this.invoice = payeeResponse.invoice;
 			await abi.replace({
 				'#{invoice}': () => payeeResponse.invoice

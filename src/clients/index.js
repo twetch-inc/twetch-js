@@ -46,9 +46,13 @@ class Client {
 		const priv = this.crypto.privFromMnemonic(mnemonic);
 		const pub = this.crypto.pubFromMnemonic(mnemonic);
 
-		let {
-			me: { publicKey, publicKeys }
-		} = await this.me();
+		let { me } = await this.me();
+		let publicKey = me && me.publicKey;
+		let publicKeys = me && me.publicKeys;
+
+		if (!publicKeys) {
+			return;
+		}
 
 		if (publicKey && publicKey !== pub) {
 			return; // seed changed
@@ -59,7 +63,7 @@ class Client {
 				!e.encryptedMnemonic &&
 				e.address &&
 				e.address.includes('@') &&
-				!e.address.includes('handcash')
+				!['handcash', 'TwetchWallet'].includes(e.walletType)
 		);
 
 		for (let each of publicKeys) {
@@ -295,8 +299,16 @@ class Client {
 	}
 
 	async publishRequest(payload) {
-		const response = await this.client.post('/publish', payload);
-		return response.data;
+		try {
+			const response = await this.client.post('/publish', payload);
+			return response.data;
+		} catch (e) {
+			if (e && e.response) {
+				throw { response: { data: e.response.data } };
+			}
+
+			throw e;
+		}
 	}
 
 	async bsvPrice() {

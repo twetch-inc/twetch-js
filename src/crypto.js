@@ -64,7 +64,15 @@ class TwetchCrypto {
 
 	static pubFromMnemonic(m, path) {
 		const priv = this.privFromMnemonic(m, path);
-		return new BSVABI.bitcoin.PrivateKey(priv).toPublicKey().toString()
+		return new BSVABI.bitcoin.PrivateKey(priv).toPublicKey().toString();
+	}
+
+	static addressFromMnemonic(m, path) {
+		const priv = this.privFromMnemonic(m, path);
+		return new BSVABI.bitcoin.PrivateKey(priv)
+			.toPublicKey()
+			.toAddress()
+			.toString();
 	}
 
 	static generateMnemonic() {

@@ -319,7 +319,10 @@ class Client {
 
 function handleError(e) {
 	if (e && e.response && e.response.data) {
-		console.log(e.response.data);
+		if (e.response.data.errors) {
+			return { error: e.response.data.errors.join(', ') };
+		}
+
 		if (e.response.status === 401) {
 			return { error: 'unauthenticated' };
 		}

@@ -101,6 +101,11 @@ class Client {
 			await this.updateMe({ publicKey: pub });
 		}
 
+		if (!me.xpub) {
+			const xpub = this.crypto.xpubFromMnemonic(mnemonic);
+			await this.updateMe({ xpub });
+		}
+
 		return mnemonic;
 	}
 
@@ -142,6 +147,7 @@ class Client {
 					id
 					name
 					publicKey
+					xpub
 					publicKeys: publicKeysByUserId(filter: { revokedAt: { isNull: true } }) {
 						nodes {
 							id

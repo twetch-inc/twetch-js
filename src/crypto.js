@@ -56,6 +56,13 @@ class TwetchCrypto {
 		return message.toString();
 	}
 
+	static xpubFromMnemonic(m) {
+		const mnemonic = BSVABI.Mnemonic.fromString(m);
+		const xpriv = BSVABI.bitcoin.HDPrivateKey.fromSeed(mnemonic.toSeed());
+		const xpub = BSVABI.bitcoin.HDPublicKey.fromHDPrivateKey(xpriv);
+		return xpub.toString();
+	}
+
 	static privFromMnemonic(m, path) {
 		const mnemonic = BSVABI.Mnemonic.fromString(m);
 		const xpriv = BSVABI.bitcoin.HDPrivateKey.fromSeed(mnemonic.toSeed());

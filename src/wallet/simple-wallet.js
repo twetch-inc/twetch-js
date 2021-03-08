@@ -95,7 +95,8 @@ class SimpleWallet extends BaseWallet {
 				to,
 				feeb: this.feeb,
 				utxos: options.utxos
-			}
+			},
+			...options
 		});
 
 		return tx;

@@ -148,6 +148,7 @@ class Client {
 					name
 					publicKey
 					xpub
+					defaultWallet
 					publicKeys: publicKeysByUserId(filter: { revokedAt: { isNull: true } }) {
 						nodes {
 							id

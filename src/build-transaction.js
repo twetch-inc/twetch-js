@@ -40,8 +40,30 @@ const build = async function(options) {
 		tx.addOutput(new Transaction.Output({ script: script, satoshis: 0 }));
 	}
 
-	options.pay.to.forEach(function(receiver) {
-		tx.to(receiver.address, receiver.value);
+	const addresses = options.pay.to.filter(e => {
+		try {
+			new Address(e.address);
+			return true;
+		} catch {
+			return false;
+		}
+	});
+
+	const scripts = options.pay.to.filter(e => {
+		try {
+			Script.fromASM(e.address);
+			return true;
+		} catch {
+			return false;
+		}
+	});
+
+	addresses.forEach(e => {
+		tx.to(e.address, e.value);
+	});
+
+	scripts.forEach(e => {
+		tx.addOutput(new Transaction.Output({ script: Script.fromASM(e.address), satoshis: e.value }));
 	});
 
 	tx.fee(0).change(address);
@@ -55,7 +77,7 @@ const build = async function(options) {
 		if (inputAmount - outputAmount < 0) {
 			fee = Math.ceil(tx._estimateSize() * options.pay.feeb);
 			tx.outputs.splice(-1, 1); // drop fee output
-			tx.outputs.splice(-1, 1) // drop last payees output
+			tx.outputs.splice(-1, 1); // drop last payees output
 
 			const payee = options.pay.to[options.pay.to.length - 1];
 			tx.to(payee.address, payee.value - fee);

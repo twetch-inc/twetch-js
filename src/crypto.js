@@ -21,6 +21,22 @@ class TwetchCrypto {
 			.substring(l);
 	}
 
+	static eciesEphemeralEncrypt(plainText, publicKey) {
+		const r = BSVABI.bitcoin.PrivateKey.fromRandom();
+		const rN = r.bn;
+		const k = BSVABI.bitcoin.PublicKey(publicKey).point;
+		const P = k.mul(rN);
+		const hash = BSVABI.bitcoin.crypto.Hash.sha512(BSVABI.bitcoin.PublicKey(P).toBuffer());
+		const iV = hash.slice(0, 16);
+		const kE = hash.slice(16, 32);
+		const kM = hash.slice(32, 64);
+		const encryptedText = Crypto.aesCBCEncrypt(plainText, kE, iV);
+		const encryptedBytes = Buffer.from(encryptedText, 'hex');
+		const msgBuf = Buffer.concat([Buffer.from('BIE1'), r.toDER(true), encryptedBytes]);
+		const hmac = BSVABI.bitcoin.crypto.Hash.sha256hmac(msgBuf, kM);
+		return { message: Buffer.concat([encbuf, hmac]).toString('hex'), hash: hash.toString('hex') };
+	}
+
 	static eciesEncrypt(plainText, publicKey) {
 		return new ecies()
 			.publicKey(publicKey)

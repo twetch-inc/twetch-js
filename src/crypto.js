@@ -21,6 +21,14 @@ class TwetchCrypto {
 			.substring(l);
 	}
 
+	static eciesEphemeralDecrypt(encryptedHex, hash) {
+		const buf = Buffer.from(hash, 'hex');
+		const iV = buf.slice(0, 16);
+		const kE = buf.slice(16, 32);
+
+		return Crypto.aesCBCDecrypt(encryptedHex, kE, iV);
+	}
+
 	static eciesEphemeralEncrypt(plainText, publicKey) {
 		const r = BSVABI.bitcoin.PrivateKey.fromRandom();
 		const rN = r.bn;
@@ -30,8 +38,6 @@ class TwetchCrypto {
 		const iV = hash.slice(0, 16);
 		const kE = hash.slice(16, 32);
 		const kM = hash.slice(32, 64);
-		console.log(iV);
-		console.log(kE);
 		const encryptedText = Crypto.aesCBCEncrypt(plainText, kE, iV);
 		const encryptedBytes = Buffer.from(encryptedText, 'hex');
 		const msgBuf = Buffer.concat([Buffer.from('BIE1'), r.publicKey.toDER(true), encryptedBytes]);

@@ -99,7 +99,10 @@ const _script = function(options) {
 	s.add(Opcode.OP_FALSE);
 	s.add(Opcode.OP_RETURN);
 	options.data.forEach(function(item) {
-		if (item.constructor.name === 'ArrayBuffer') {
+		if (item.constructor.name === 'Uint8Array') {
+			let buffer = _Buffer.Buffer.from(item);
+			s.add(buffer);
+		} else if (item.constructor.name === 'ArrayBuffer') {
 			let buffer = _Buffer.Buffer.from(item);
 			s.add(buffer);
 		} else if (item.constructor.name === 'Buffer') {

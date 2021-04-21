@@ -3,6 +3,8 @@ const buildTransaction = require('../build-transaction');
 const InMemoryStorage = require('../storage/in-memory-storage');
 const Message = require('../../bsvabi/bsv/message');
 const PrivateKey = require('../../bsvabi/bsv/lib/privatekey');
+const Script = require('../../bsvabi/bsv/lib/script');
+const Address = require('../../bsvabi/bsv/lib/address');
 const axios = require('axios');
 
 class SimpleWallet extends BaseWallet {
@@ -63,8 +65,8 @@ class SimpleWallet extends BaseWallet {
 	}
 
 	async balance() {
-		const response = await axios.get(`${this.rpc}/addr/${this.address()}/utxo`);
-		return response.data.reduce((a, e) => a + e.satoshis, 0);
+		const utxos = this.utxos();
+		return utxos.reduce((a, e) => a + e.satoshis, 0);
 	}
 
 	get rpc() {
@@ -75,10 +77,27 @@ class SimpleWallet extends BaseWallet {
 	}
 
 	async utxos() {
+		const address = this.address();
 		const response = await axios.post(`${this.rpc}/addrs/utxo`, {
-			addrs: [this.address()].join(',')
+			addrs: [address].join(',')
 		});
 		return response.data;
+
+		//let { data: utxos } = await axios.get(
+		//`https://api.whatsonchain.com/v1/bsv/main/address/${address}/unspent`
+		//);
+		//utxos = utxos
+		//.sort((a, b) => a.value - b.value)
+		//.map(e => ({
+		//txid: e.tx_hash,
+		//vout: e.tx_pos,
+		//satoshis: e.value,
+		//script: new Script(new Address(address)).toHex()
+		//}));
+
+		//console.log({ utxos });
+
+		//return utxos;
 	}
 
 	async buildTx(data, payees = [], options = {}) {

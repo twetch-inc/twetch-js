@@ -77,7 +77,7 @@ class SimpleWallet extends BaseWallet {
 	}
 
 	async utxos() {
-		//const address = this.address();
+		const address = this.address();
 		//const response = await axios.post(`${this.rpc}/addrs/utxo`, {
 		//addrs: [address].join(',')
 		//});

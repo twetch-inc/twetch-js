@@ -65,7 +65,7 @@ class SimpleWallet extends BaseWallet {
 	}
 
 	async balance() {
-		const utxos = this.utxos();
+		const utxos = await this.utxos();
 		return utxos.reduce((a, e) => a + e.satoshis, 0);
 	}
 

@@ -101,7 +101,7 @@ class Client {
 			await this.updateMe({ publicKey: pub });
 		}
 
-		if (!me.xpub) {
+		if (!me.xpub && pub === publicKey) {
 			const xpub = this.crypto.xpubFromMnemonic(mnemonic);
 			await this.updateMe({ xpub });
 		}

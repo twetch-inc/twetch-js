@@ -117,6 +117,7 @@ const _script = function(options) {
 			s.add({ opcodenum: item.op });
 		}
 	});
+
 	return s;
 };
 

@@ -77,23 +77,23 @@ class SimpleWallet extends BaseWallet {
 	}
 
 	async utxos() {
-		const address = this.address();
-		const response = await axios.post(`https://api.mattercloud.io/api/v3/main/address/utxo`, {
-			addrs: [address].join(',')
-		});
-		return response.data;
+		//const address = this.address();
+		//const response = await axios.post(`https://api.mattercloud.io/api/v3/main/address/utxo`, {
+			//addrs: [address].join(',')
+		//});
+		//return response.data;
 
-		//let { data: utxos } = await axios.get(
-		//`https://api.whatsonchain.com/v1/bsv/main/address/${address}/unspent`
-		//);
-		//utxos = utxos
-		//.sort((a, b) => a.value - b.value)
-		//.map(e => ({
-		//txid: e.tx_hash,
-		//vout: e.tx_pos,
-		//satoshis: e.value,
-		//script: new Script(new Address(address)).toHex()
-		//}));
+		let { data: utxos } = await axios.get(
+		`https://api.whatsonchain.com/v1/bsv/main/address/${address}/unspent`
+		);
+		utxos = utxos
+		.sort((a, b) => a.value - b.value)
+		.map(e => ({
+		txid: e.tx_hash,
+		vout: e.tx_pos,
+		satoshis: e.value,
+		script: new Script(new Address(address)).toHex()
+		}));
 
 		return utxos;
 	}

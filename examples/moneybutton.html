@@ -11,14 +11,16 @@
 		<div id="moneybutton-sign"></div>
 		<p id="signing-address">Signing Address:</p>
 		<p>After adding your signing address you may post from moneybutton</p>
-		<p>Posting: "Hello World from Twetch SDK w/ MoneyButton"</p>
+        <label for="post">Twetch:</label>
+        <input type="text" id="post" onblur="init()" value="Hello World from Twetch SDK w/ MoneyButton"></input><br><br>
 		<div id="moneybutton-post"></div>
 	</body>
 	<script>
-		init();
-		async function init() {
-			const sdk = new twetchjs();
-			const { abi, payees } = await sdk.build('twetch/post@0.0.1', { bContent: 'Hello World from Twetch SDK w/ MoneyButton' });
+        init();
+	    async function init() {
+            const sdk = new twetchjs();
+            let post = document.getElementById('post').value;
+            const { abi, payees } = await sdk.build('twetch/post@0.0.1', { bContent: post });
 			const outputs = [{
 				currency: 'BSV',
 				amount: 0,
